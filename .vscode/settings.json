@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "summer.h": "c"
+        "summer.h": "c",
+        "stdio.h": "c"
     }
 }
