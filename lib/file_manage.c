@@ -3,10 +3,17 @@
 #include <dirent.h>
 #include <Windows.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #include "lib.h"
 
 void create_folder(char* addres){
     CreateDirectory(addres, NULL);
+}
+
+void create_file(char* name, char* addres){
+    char *full_addres = cat_string(addres, cat_string("\\", name));
+    FILE* file = fopen(full_addres, "wb");
+    fclose(file);
 }
 
 void create_hidden_folder(char* addres){

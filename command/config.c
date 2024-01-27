@@ -8,23 +8,17 @@
 #include <dirent.h>
 
 void set_username(char* addres, char* user_name){
-    FILE* file = fopen(addres, "rb");
-    Config conf;
-    fread(&conf, sizeof(conf), 1, file);
-    fclose(file);
+    Config conf = get_config(addres);
     strcpy(conf.name, user_name);
-    file = fopen(addres, "wb");
+    FILE *file = fopen(addres, "wb");
     fwrite(&conf, sizeof(conf), 1, file);
     fclose(file);
 }
 
 void set_email(char* addres, char* email){
-    FILE* file = fopen(addres, "rb");
-    Config conf;
-    fread(&conf, sizeof(conf), 1, file);
-    fclose(file);
+    Config conf = get_config(addres);
     strcpy(conf.email, email);
-    file = fopen(addres, "wb");
+    FILE *file = fopen(addres, "wb");
     fwrite(&conf, sizeof(conf), 1, file);
     fclose(file);
 }
@@ -61,6 +55,7 @@ int create_config(char* addres){
     FILE* file = fopen(config_addres, "wb");
     Config conf;
     strcpy(conf.head, "master");
+    conf.name[0] = conf.email[0] = 0;
     conf.date = time(NULL);
     fwrite(&conf, sizeof(conf), 1, file);
     fclose(file);

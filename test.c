@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 int main(){
-    int tm = time(NULL);
-    printf("%d", tm);
+    int a;
+    FILE *file = fopen("rr.dat", "wb");
     return 0;
 }
 

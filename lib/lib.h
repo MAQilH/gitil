@@ -4,3 +4,10 @@
 #include "addres.h"
 #include "../glob.h"
 #include "time.h"
+#include "data_base.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <limits.h>
+#include <dirent.h>
+#include <stdlib.h>
+#include <string.h>
