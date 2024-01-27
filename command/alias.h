@@ -1,0 +1,1 @@
+char* get_alias(char* arc);

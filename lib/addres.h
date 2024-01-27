@@ -5,3 +5,4 @@ char* get_global_config_addres();
 char* get_local_alias_addres();
 char* get_global_alias_addres();
 char* get_branch_info_addres();
+char* get_global_folder_addres();

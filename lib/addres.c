@@ -43,3 +43,7 @@ char* get_global_alias_addres(){
 char* get_branch_info_addres(){
     return cat_string(get_root_addres(), "\\.gitil\\branch_info.dat");
 }
+
+char* get_global_folder_addres(){
+    return "C:\\.gitil";
+}

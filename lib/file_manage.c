@@ -27,8 +27,11 @@ int check_in_root(){
     return 0;
 }
 
-int exist_folder(char* name){
+int exist_folder(char* addres){
     struct stat sb;
-    return stat(name, &sb) == 0 && S_ISDIR(sb.st_mode);
+    return stat(addres, &sb) == 0 && S_ISDIR(sb.st_mode);
 }
 
+int exist_file(char* addres){
+    return access(addres, F_OK) != -1;
+}
