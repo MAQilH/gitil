@@ -1,8 +1,11 @@
 #include <stdio.h>
-#include "summer.h"
+#include <string.h>
+#include "headers.h"
+
+
 
 int main(int argc, char* argv[]){
-    printf("num: %d\n%s + %s\n", argc, argv[1], argv[2]);
-    int a = 3, b = 8233434;
-    printf("%d", sum(a, b));
+    char* act = argv[1];
+    if(!strcmp(act, "init")) init(argc, argv);
+    return 0;
 }

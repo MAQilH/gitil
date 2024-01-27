@@ -1,6 +1,15 @@
 {
     "files.associations": {
         "summer.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "dirent.h": "c",
+        "init.h": "c",
+        "stdbool.h": "c",
+        "limits.h": "c",
+        "stat.h": "c",
+        "types.h": "c",
+        "windows.h": "c",
+        "file_manage.h": "c",
+        "print.h": "c"
     }
 }
