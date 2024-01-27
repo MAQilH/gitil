@@ -1,8 +1,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <limits.h>
-#include "../lib/lib.h"
 #include "config.h"
+#include "../lib/lib.h"
 
 void initialize(){
     create_local_config();
@@ -10,11 +10,11 @@ void initialize(){
     chdir("./.gitil");
     FILE *file = fopen("barnchs_info.dat", "wb");
     fclose(file);
-    create_folder(cat_string(get_curren_addres(), "\\branch"));
+    create_folder(cat_string(get_current_addres(), "\\branch"));
 }
 
 int init(int argc, char *argv[]){
-    if(get_root_project_addres() != NULL){
+    if(get_root_addres() != NULL){
         print_fail("fail: gitil already created!");
         return 0;
     }

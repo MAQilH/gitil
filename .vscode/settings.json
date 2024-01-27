@@ -11,6 +11,9 @@
         "windows.h": "c",
         "file_manage.h": "c",
         "print.h": "c",
-        "config.h": "c"
+        "config.h": "c",
+        "addres.h": "c",
+        "lib.h": "c",
+        "headers.h": "c"
     }
 }
