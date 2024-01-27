@@ -2,7 +2,8 @@
 #include <limits.h>
 #include <dirent.h>
 #include <Windows.h>
-#include "print.h"
+#include "lib.h"
+#include <sys/stat.h>
 
 void create_folder(char* addres){
     CreateDirectory(addres, NULL);
@@ -50,4 +51,9 @@ char* get_root_project_addres(){
     }
     chdir(saved);
     return NULL;
+}
+
+int exist_folder(char* name){
+    struct stat sb;
+    return stat(name, &sb) == 0 && S_ISDIR(sb.st_mode);
 }
