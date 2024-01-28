@@ -21,3 +21,8 @@ char *get_current_branch_folder_addres();
 char *get_current_stage_info_addres();
 char *get_current_unstage_info_addres();
 char *get_current_commit_info_addres();
+
+/* Commit Addres */
+char *get_commits_folder_addres(char* branch_name);
+char *get_commit_folder_addres(char* commit_id);
+char *get_commit_file_status_addres(char* commit_id);

@@ -27,6 +27,10 @@ int main(int argc, char* argv_tmp[]){
         return 0;
     }
 
+    for(int i = 0; i < argc; i++){
+        printf("%s\n", argv[i]);
+    }
+
     char* act = argv[1];
     if(!strcmp(act, "init")) init(argc, argv);
     else if(!strcmp(act, "config")) {

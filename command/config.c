@@ -51,7 +51,7 @@ int config(int argc, char *argv[]){
 }
 
 int create_config(char* addres){
-    char* folder_addres = cat_string(addres, "\\.gitil");
+    char* folder_addres = cat_string(addres, ".gitil");
     if(exist_folder(folder_addres)) return 0;
     
     create_hidden_folder(folder_addres);

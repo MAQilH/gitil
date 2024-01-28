@@ -21,6 +21,10 @@
         "string_list_model.h": "c",
         "data_base.h": "c",
         "time.h": "c",
-        "branch_model.h": "c"
+        "branch_model.h": "c",
+        "file_model.h": "c",
+        "state_model.h": "c",
+        "commit.h": "c",
+        "commit_model.h": "c"
     }
 }

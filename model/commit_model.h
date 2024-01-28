@@ -2,6 +2,7 @@
 typedef struct Commit{
     char message[MAX_NAME];
     char creator[MAX_NAME];
-    int commit_id;
+    char branch_name[MAX_NAME];
+    char commit_id[MAX_NAME];
     int date;
 } Commit;

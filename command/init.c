@@ -8,11 +8,8 @@
 void initialize(){
     create_local_config();
     create_global_config();
-    chdir("./.gitil");
-    FILE *file = fopen("barnchs_info.dat", "wb");
-    fclose(file);
     create_folder(get_main_branch_folder_addres());
-    create_branch("master", "", 0);
+    create_master_branch();
 }
 
 int init(int argc, char *argv[]){

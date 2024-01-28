@@ -32,3 +32,25 @@ StringList get_string_list(char* str, char* del){
     }
     return res;
 }
+
+char* itos(int a){
+    char* str = (char*)calloc(MAX_NAME, 1);
+    int len = 0, tmp = a;
+    while(tmp) len++, tmp /= 10;
+    while(a){
+        len--;
+        str[len] = a%10;
+        a /= 10;
+    }
+    return str;
+}
+
+char* get_file_name(char* file_addres){
+    StringList stl = get_string_list(file_addres, "\\");
+    return get_string_ref(stl.lst[stl.cnt-1]);
+}
+
+char* get_file_type(char* file_addres){
+    StringList stl = get_string_list(file_addres, ".");
+    return get_string_ref(stl.lst[stl.cnt-1]);
+}
