@@ -6,7 +6,7 @@ void print_branch(Branch brn){
     printf(
         "name: %s\n"
         "creator: %s\n"
-        "parrent_branch:%s\n"
+        "parrent_branch: %s\n"
         "parrent_commit_id: %s\n"
         "head_commid_id: %s\n"
         "date: %s\n\n",

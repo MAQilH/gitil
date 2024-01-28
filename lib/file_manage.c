@@ -73,9 +73,9 @@ int file_cmp(char* file_addres1, char* file_addres2){
     }
 }
 
-void merge_file_list(FileList *dest, FileList *src){
-    for(int i = 0; i < src->cnt; i++){
-        dest->lst[dest->cnt++] = src->lst[i];
+void merge_file_list(FileList *dest, FileList src){
+    for(int i = 0; i < src.cnt; i++){
+        dest->lst[dest->cnt++] = src.lst[i];
     }
 }
 

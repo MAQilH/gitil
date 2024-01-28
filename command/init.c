@@ -18,6 +18,6 @@ int init(int argc, char *argv[]){
         return 0;
     }
     initialize();
-    print_success("welcome to the gitil world=) \n**please rate me in App Store=)");
+    print_success("welcome to the gitil world=)");
     return 1;
 }

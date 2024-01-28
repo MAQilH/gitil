@@ -9,8 +9,13 @@ void create_branch(char *branch_name, char *parent_branch_name){
     strcpy(brn.creator, get_creator());
     strcpy(brn.name, branch_name);
     strcpy(brn.parrent_branch, parent_branch_name);
-    strcpy(brn.parent_commit_id, get_branch_head_commit(parent_branch_name));
-    strcpy(brn.head_commit_id, get_branch_head_commit(parent_branch_name));
+    if(!strcmp(branch_name, "master")){
+        strcpy(brn.parent_commit_id, "master");
+        strcpy(brn.head_commit_id, "master");
+    } else{
+        strcpy(brn.parent_commit_id, get_branch_head_commit(parent_branch_name));
+        strcpy(brn.head_commit_id, get_branch_head_commit(parent_branch_name));
+    }
     brn.date = time(NULL);
     
     create_folder(get_branch_folder_addres(branch_name));
@@ -30,7 +35,7 @@ void create_branch(char *branch_name, char *parent_branch_name){
     fclose(file);
 
     if(!strcmp(branch_name, "master")){
-        create_commit("");
+        create_commit("gitil add to project weee XD");
     }
 }
 

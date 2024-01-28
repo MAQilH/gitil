@@ -7,7 +7,7 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
-    print_config_file(get_local_config_addres());
+    print_file_list_file(get_stage_info_addres("master"));
 }
 
 int check_continue(int argc, char *argv[]){

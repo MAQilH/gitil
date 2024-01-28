@@ -56,7 +56,9 @@ void update_head_commit_id(char* commit_id){
 
 void create_commit_init_file(char* commit_id){
     create_folder(get_commit_folder_addres(commit_id));
-    FILE *status_file = fopen(get_commit_status_file_addres(commit_id), "ab");
+    FILE *status_file = fopen(get_commit_status_file_addres(commit_id), "wb");
+    FileList empt = {.cnt = 0};
+    fwrite(&empt, sizeof(empt), 1, status_file);
     fclose(status_file);
 }
 

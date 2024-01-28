@@ -3,12 +3,11 @@
 #include <stdio.h>
 
 void print_file_list(FileList flst){
-    print_warn("____\n");
     printf("count: %d\n", flst.cnt);
     for(int i = 0; i < flst.cnt; i++){
         print_file(flst.lst[i]);
     }
-    print_warn("____\n");
+    print_warn("_________________");
 }
 
 void print_file_list_file(char* file_addres){
