@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <dirent.h>
+#include "config.h"
 
 void set_username(char* addres, char* user_name){
     Config conf = get_config(addres);
@@ -29,9 +30,12 @@ void add_alias(char* addres, Alias als){
     fclose(file);
 }
 
-void config(int argc, char *argv[]){
+int config(int argc, char *argv[]){
     int in_global = 0;
-    if(!strcmp(argv[2],"-global")) in_global = 1;
+    if(!strcmp(argv[2],"-global")) {
+        in_global = 1;
+        create_global_config();
+    }
     char* type = argv[in_global + 2];
     if(!strcmp(type, "user.name")){
         set_username(in_global? get_global_config_addres(): get_local_config_addres(), argv[argc-1]);
@@ -43,6 +47,7 @@ void config(int argc, char *argv[]){
         strcpy(als.to, argv[argc-1]);
         add_alias(in_global? get_global_alias_addres(): get_local_alias_addres(), als);
     }
+    return 1;
 }
 
 int create_config(char* addres){

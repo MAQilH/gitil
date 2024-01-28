@@ -1,4 +1,4 @@
 int config(int argc, char *argv[]);
 void create_global_config();
 void create_local_config();
-void create_config(char* addres);
+int create_config(char* addres);

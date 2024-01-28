@@ -20,6 +20,7 @@
         "glob.h": "c",
         "string_list_model.h": "c",
         "data_base.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "branch_model.h": "c"
     }
 }

@@ -10,3 +10,8 @@ char* get_creator(){
     }
     return get_string_ref(loc.name);
 }
+
+char* get_HEAD(){
+    Config loc = get_config(get_local_config_addres());
+    return get_string_ref(loc.head);
+}

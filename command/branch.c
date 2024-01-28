@@ -1,5 +1,5 @@
 #include "../model/branch_model.h"
-#include "lib.h"
+#include "../lib/lib.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -12,11 +12,9 @@ void create_branch(char *branch_name, char *parent_branch_name, int parent_commi
     brn.parent_commit_id = parent_commit_id;
     brn.head_commit_id = 0;
     
-    char *folder_addres = cat_string(get_branch_folder_addres(), cat_string("\\", branch_name));
-    create_folder(folder_addres);
+    create_folder(get_branch_folder_addres(branch_name));
     
-    char *branch_info_addres = cat_string(folder_addres, "\\branch_info.dat");
-    FILE* file = fopen(branch_info_addres, "wb");
+    FILE* file = fopen(get_branch_folder_addres(branch_name), "wb");
     fwrite(&brn, sizeof(brn), 1, file);
     fclose(file);
 
@@ -28,7 +26,16 @@ void create_branch(char *branch_name, char *parent_branch_name, int parent_commi
     // file = fopen(last_unstage_info_addres, "wb");
     // fclose(file);
 
-    char *commit_info_addres = cat_string(folder_addres, "\\commit_info.dat");
-    FILE* file = fopen(commit_info_addres, "wb");
+    file = fopen(get_commit_info_addres(branch_name), "wb");
     fclose(file);
+
+    file = fopen(get_stage_info_addres(branch_name), "wb");
+    fclose(file);
+
+    file = fopen(get_unstage_info_addres(branch_name), "wb");
+    fclose(file);
+}
+
+void create_master_branck(){
+
 }
