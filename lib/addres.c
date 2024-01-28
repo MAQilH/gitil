@@ -108,6 +108,6 @@ char *get_commit_folder_addres(char* commit_id){
     );
 }
 
-char *get_commit_file_status_addres(char* commit_id){
+char *get_commit_status_file_addres(char* commit_id){
     return cat_string(get_commit_folder_addres(commit_id), "file_status.dat");
 }

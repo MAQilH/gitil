@@ -6,3 +6,6 @@ typedef struct Commit{
     char commit_id[MAX_NAME];
     int date;
 } Commit;
+
+void print_commit(Commit cmt);
+void print_commit_file(char* file_addres);

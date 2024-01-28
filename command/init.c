@@ -9,7 +9,7 @@ void initialize(){
     create_local_config();
     create_global_config();
     create_folder(get_main_branch_folder_addres());
-    create_master_branch();
+    create_branch("master", "master");
 }
 
 int init(int argc, char *argv[]){
@@ -18,6 +18,6 @@ int init(int argc, char *argv[]){
         return 0;
     }
     initialize();
-    print_success("gitil created!");
+    print_success("welcome to the gitil world=) \n**please rate me in App Store=)");
     return 1;
 }

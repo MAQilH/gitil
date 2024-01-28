@@ -34,12 +34,10 @@ char* get_commit_branch(char *commit_id){
     fclose(branch_info_file);
 }
 
+char *get_branch_head_commit(char* branch_name){
+    return get_string_ref(get_branch(branch_name).head_commit_id);
+}
+
 char* get_cuurent_HEAD_commit(){
-    char *branch = get_HEAD();
-    Commit last_commit, tmp;
-    FILE *commit_info_file = fopen(get_commit_info_addres(branch), "rb");
-    while(fread(&tmp, sizeof(tmp), 1, commit_info_file)){
-        last_commit = tmp;
-    }
-    return get_string_ref(last_commit.commit_id);
+    return get_branch_head_commit(get_HEAD());
 }

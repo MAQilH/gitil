@@ -7,3 +7,5 @@ typedef struct Config{
 } Config;
 
 Config get_config(char* addres);
+void print_config(Config cnf);
+void print_config_file(char* file_addres);

@@ -54,3 +54,11 @@ char* get_file_type(char* file_addres){
     StringList stl = get_string_list(file_addres, ".");
     return get_string_ref(stl.lst[stl.cnt-1]);
 }
+
+char* get_date(int date){
+    time_t epoch_seconds = date;
+    struct tm *tm_info = localtime(&epoch_seconds);
+    char buffer[26];
+    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    return get_string_ref(buffer);
+}

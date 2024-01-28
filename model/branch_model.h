@@ -3,7 +3,12 @@ typedef struct Branch{
     char name[MAX_NAME];
     char creator[MAX_NAME];
     char parrent_branch[MAX_NAME]; 
-    int parent_commit_id;
+    char parent_commit_id[MAX_NAME];
+    char head_commit_id[MAX_NAME];
     int date;
-    int head_commit_id;
 } Branch;
+
+Branch get_branch_and_index(char* branch_name, int *index);
+Branch get_branch(char* branch_name);
+void print_branch(Branch brn);
+void print_branch_file(char* file_addres);

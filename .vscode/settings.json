@@ -25,6 +25,12 @@
         "file_model.h": "c",
         "state_model.h": "c",
         "commit.h": "c",
-        "commit_model.h": "c"
+        "commit_model.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c",
+        "delete.h": "c",
+        "stril.h": "c",
+        "model.h": "c",
+        "file_list_model.h": "c"
     }
 }

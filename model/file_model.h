@@ -13,3 +13,5 @@ typedef struct{
 } File;
 
 State get_file_state_with_commit(char *commit_id, char* file_addres);
+void print_file_file(char* file_addres);
+void print_file(File fl);

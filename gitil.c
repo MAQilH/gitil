@@ -3,8 +3,12 @@
 #include <string.h> 
 #include "headers.h"
 #include "glob.h"
-#include "model/string_list_model.h"
 #include "lib/lib.h"
+#include "model/model.h"
+
+void test_env(int argc, char *argv[]){
+    print_config_file(get_local_config_addres());
+}
 
 int check_continue(int argc, char *argv[]){
     char* act = argv[1];
@@ -12,6 +16,10 @@ int check_continue(int argc, char *argv[]){
 }
 
 int main(int argc, char* argv_tmp[]){
+    if(!strcmp(argv_tmp[1], "test")){
+        test_env(argc, argv_tmp);
+        return 0;
+    }
 
     char **argv = argv_tmp;
     if(argc == 2){
@@ -27,17 +35,19 @@ int main(int argc, char* argv_tmp[]){
         return 0;
     }
 
-    for(int i = 0; i < argc; i++){
-        printf("%s\n", argv[i]);
-    }
-
     char* act = argv[1];
     if(!strcmp(act, "init")) init(argc, argv);
     else if(!strcmp(act, "config")) {
         if(config(argc, argv)){
             print_success("config changes!");
         }
-    } else {
+    } else if(!strcmp(act, "delete")){
+        del(argc, argv);
+        print_warn("fuck you :)");
+    } else if(!strcmp(act, "add")){
+        add(argc, argv);
+    }
+    else {
         print_fail("fail: input is invalid!");
     }
     return 0;

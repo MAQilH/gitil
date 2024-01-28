@@ -78,3 +78,46 @@ void merge_file_list(FileList *dest, FileList *src){
         dest->lst[dest->cnt++] = src->lst[i];
     }
 }
+
+void upate_middle_file(void* data, int size, int index, char* file_addres){
+    FILE* file = fopen(file_addres, "r+");
+    fseek(file, index*size, SEEK_SET);
+    fwrite(data, size, 1, file);
+    fclose(file);
+}
+
+int remove_directory(char *path) {
+    DIR *d = opendir(path);
+    size_t path_len = strlen(path);
+    int r = -1;
+    if(d) {
+        struct dirent *p;
+        r = 0;
+        while(!r && (p=readdir(d))) {
+            int r2 = -1;
+            char *buf;
+            size_t len;
+            if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, ".."))
+                continue;
+            len = path_len + strlen(p->d_name) + 2; 
+            buf = malloc(len);
+            if (buf) {
+                struct stat statbuf;
+                snprintf(buf, len, "%s/%s", path, p->d_name);
+                if (!stat(buf, &statbuf)) {
+                    if (S_ISDIR(statbuf.st_mode))
+                        r2 = remove_directory(buf);
+                    else
+                        r2 = unlink(buf);
+                }
+                free(buf);
+            }
+            r = r2;
+        }
+        closedir(d);
+    }
+    if(!r){
+       r = rmdir(path);
+    }
+    return r;
+}

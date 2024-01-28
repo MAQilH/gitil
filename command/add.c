@@ -39,6 +39,7 @@ FileList dfs_get_file(int dep, char* commit_id){
     struct dirent *ent;
     FileList res;
     while((ent = readdir(dir)) != NULL){
+        if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) continue;
         if(is_directory(ent->d_name)){
             chdir(ent->d_name);
             FileList flst = dfs_get_file(dep-1, commit_id);
