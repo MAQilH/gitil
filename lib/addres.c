@@ -48,7 +48,6 @@ char* get_global_alias_addres(){
     return "C:\\.gitil\\alias_info.dat";
 }
 
-
 char* get_global_folder_addres(){
     return "C:\\.gitil\\";
 }
@@ -79,6 +78,14 @@ char *get_commit_info_addres(char* branch_name){  // \.gitil\branch\branch123\co
     return cat_string(get_branch_folder_addres(branch_name), "commit_info.dat");
 }
 
+char *get_stage_changes_folder_addres(char* branch_name){
+    return cat_string(get_branch_folder_addres(branch_name), "stage_change\\"); 
+}
+
+char *get_stage_changes_file_addres(char* branch_name, char *file_name){
+    return cat_string(get_stage_changes_folder_addres(branch_name), file_name);
+}
+
 char *get_current_branch_folder_addres(){
     return get_branch_folder_addres(get_HEAD());
 }
@@ -94,6 +101,15 @@ char *get_current_unstage_info_addres(){
 char *get_current_commit_info_addres(){
     return get_commit_info_addres(get_HEAD());
 }
+
+char *get_current_stage_changes_folder_addres(){
+    return get_stage_changes_folder_addres(get_HEAD());
+}
+
+char *get_current_stage_changes_file_addres(char *file_name){
+    return get_stage_changes_file_addres(get_HEAD(), file_name);
+}
+
 
 /* Commit */
 

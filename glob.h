@@ -1,3 +1,6 @@
-#define MAX_NAME (260)
+#define MAX_NAME (50)
+#define MAX_ADDRES (260)
 #define MAX_COMA (20)
 #define MAX_DEP (30)
+#define MAX_EMAIL (100)
+#define MAX_MESSAGE (75)

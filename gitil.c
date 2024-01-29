@@ -7,8 +7,7 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
-    printsd(get_local_config_addres());
-    print_config_file(get_local_config_addres());
+    print_file_list_file(get_current_stage_info_addres());
 }
 
 int check_continue(int argc, char *argv[]){
@@ -21,8 +20,6 @@ int main(int argc, char* argv_tmp[]){
         test_env(argc, argv_tmp);
         return 0;
     }
-
-    addsf
 
     char **argv = argv_tmp;
     if(argc == 2){

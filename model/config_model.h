@@ -1,8 +1,9 @@
 #include "../glob.h"
 typedef struct Config{
-    char email[MAX_NAME];
+    char email[MAX_EMAIL];
     char name[MAX_NAME];
     char head[MAX_NAME];
+    char head_commit[MAX_NAME];
     int date;
 } Config;
 

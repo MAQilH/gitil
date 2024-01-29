@@ -1,6 +1,6 @@
 #include "../glob.h"
 typedef struct Commit{
-    char message[MAX_NAME];
+    char message[MAX_MESSAGE];
     char creator[MAX_NAME];
     char branch_name[MAX_NAME];
     char commit_id[MAX_NAME];

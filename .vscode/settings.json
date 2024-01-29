@@ -31,6 +31,8 @@
         "delete.h": "c",
         "stril.h": "c",
         "model.h": "c",
-        "file_list_model.h": "c"
+        "file_list_model.h": "c",
+        "random": "c",
+        "stage.h": "c"
     }
 }

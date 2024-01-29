@@ -4,11 +4,12 @@ typedef enum{
     Modified,
     Create,
     Delete,
-    Unchange
+    Unchange,
+    NotFound
 } State;
 typedef struct{
     char name[MAX_NAME];
-    char addres[MAX_NAME];
+    char addres[MAX_ADDRES];
     State state;
 } File;
 

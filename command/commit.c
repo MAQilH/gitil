@@ -4,30 +4,35 @@
 #include "../model/branch_model.h"
 
 char* exist_in_commit(char *commit_id, char* file_addres){
-    FILE *file_status = fopen(get_commit_status_file_addres(commit_id), "rb");
-    FileList flst;
-    fread(&flst, sizeof(flst), 1, file_status);
-    fclose(file_status);
-    for(int i = 0; i < flst.cnt; i++){
-        if(!strcmp(file_addres, flst.lst[i].addres)){
-            return cat_string(
-                cat_string(itos(i), "."),
-                get_file_type(file_addres)
-            );
-        }
-    }
-    return NULL;
+    State sts = find_in_file_list_with_addres(
+        get_commit_status_file_addres(commit_id),
+        file_addres
+    );
+    if(sts == Delete || sts == NotFound) return NULL; 
+    int index = find_index_in_file_list_with_addres(
+        get_commit_status_file_addres(commit_id),
+        file_addres
+    );
+    return replace_name_with_id(file_addres, index);
 }
 
 State get_file_state_with_commit(char *commit_id, char* file_addres){
     char* addres_in_commit = exist_in_commit(commit_id, file_addres);
     if(!exist_file(file_addres)){
-        if(addres_in_commit == NULL) return Unchange;
+        // if(addres_in_commit == NULL) return Unchange;
         return Delete;
     }
     if(addres_in_commit == NULL) return Create;
     if(file_cmp(addres_in_commit, file_addres)) return Unchange;
     return Modified;
+}
+
+FileList get_commit_status_file(char *commit_id){
+    FILE *file = fopen(get_commit_status_file_addres(commit_id), "rb");
+    FileList flst;
+    fread(&flst, sizeof(flst), 1, file);
+    fclose(file);
+    return flst; 
 }
 
 char* create_random_commit_id(){
@@ -51,6 +56,7 @@ void update_head_commit_id(char* commit_id){
     int index;
     Branch brn = get_branch_and_index(get_HEAD(), &index);
     strcpy(brn.head_commit_id, commit_id);
+
     upate_middle_file(&brn, sizeof(brn), index, get_branch_info_addres());
 }
 
@@ -63,7 +69,7 @@ void create_commit_init_file(char* commit_id){
 }
 
 void push_stage(){
-    // TODO: ...
+    
 }
 
 void create_commit(char* message){
@@ -75,7 +81,6 @@ void create_commit(char* message){
     strcpy(cmt.commit_id, commit_id);
     cmt.date = time(NULL);
     
-
     append_commit(cmt);
     update_head_commit_id(commit_id);
     push_stage(commit_id);

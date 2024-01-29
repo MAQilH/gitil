@@ -18,8 +18,11 @@ void create_branch(char *branch_name, char *parent_branch_name){
     }
     brn.date = time(NULL);
     
+
     create_folder(get_branch_folder_addres(branch_name));
     create_folder(get_commits_folder_addres(branch_name));
+    create_folder(get_stage_changes_folder_addres(branch_name));
+
     
     FILE* file = fopen(get_branch_info_addres(), "ab");
     fwrite(&brn, sizeof(brn), 1, file);

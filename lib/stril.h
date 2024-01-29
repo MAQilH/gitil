@@ -4,3 +4,4 @@ char* itos(int a);
 char* get_file_name(char* file_addres);
 char* get_file_type(char* file_addres);
 char* get_date(int date);
+char* replace_name_with_id(char* file_addres, int index);

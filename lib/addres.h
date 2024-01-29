@@ -17,10 +17,14 @@ char *get_branch_folder_addres(char* branch_name);
 char *get_stage_info_addres(char* branch_name);
 char *get_unstage_info_addres(char* branch_name);
 char *get_commit_info_addres(char* branch_name);
+char *get_stage_changes_folder_addres(char* branch_name);
+char *get_stage_changes_file_addres(char* branch_name, char *file_name);
 char *get_current_branch_folder_addres();
 char *get_current_stage_info_addres();
 char *get_current_unstage_info_addres();
 char *get_current_commit_info_addres();
+char *get_current_stage_changes_folder_addres();
+char *get_current_stage_changes_file_addres(char *file_name);
 
 /* Commit Addres */
 char *get_commits_folder_addres(char* branch_name);

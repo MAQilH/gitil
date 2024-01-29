@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <limits.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <Windows.h>
 #include <sys/stat.h>
@@ -80,7 +81,7 @@ void merge_file_list(FileList *dest, FileList src){
 }
 
 void upate_middle_file(void* data, int size, int index, char* file_addres){
-    FILE* file = fopen(file_addres, "r+");
+    FILE* file = fopen(file_addres, "rb+");
     fseek(file, index*size, SEEK_SET);
     fwrite(data, size, 1, file);
     fclose(file);
@@ -120,4 +121,36 @@ int remove_directory(char *path) {
        r = rmdir(path);
     }
     return r;
+}
+
+int file_copy(char FileSource[], char FileDestination[]){
+    int c;
+    FILE *stream_R;
+    FILE *stream_W; 
+
+    stream_R = fopen (FileSource, "r");
+    if(stream_R == NULL) return -1;
+    stream_W = fopen (FileDestination, "w");
+    if(stream_W == NULL){
+        fclose(stream_R);
+        return -2;
+    }    
+    while((c = fgetc(stream_R)) != EOF)
+        fputc(c, stream_W);
+    fclose(stream_R);
+    fclose(stream_W);
+    return 0;
+}
+
+void pop_from_file(int size, char* file_addres){
+    int file = open(file_addres, O_RDWR);
+    off_t sz = lseek(file, 0, SEEK_END);
+    ftruncate(file, sz - size);
+    close(file);
+    return;
+}
+
+int check_exist_in_folder(char *addres, char *folder_addres){
+    if(strlen(folder_addres) > strlen(addres)) return 0;
+    return strncmp(addres, folder_addres, strlen(folder_addres)) == 0;
 }

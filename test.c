@@ -2,13 +2,16 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model/model.h"
+// #include "model/model.h"
 
 #define MAX_NAME (260) 
 
+int check_exist_in_folder(char *addres, char *folder_addres){
+    if(strlen(folder_addres) > strlen(addres)) return 0;
+    return strncmp(addres, folder_addres, strlen(folder_addres)) == 0;
+}
 
 int main(){
-    // print_alias_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\alias_info.dat");
-    int x = 3;
+    printf("%d", check_exist_in_folder("asd", "asd"));
     return 0;
 }

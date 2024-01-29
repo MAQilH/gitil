@@ -23,7 +23,7 @@ StringList get_string_list(char* str, char* del){
     char *token = strtok(str_arr, del);
     StringList res;
     res.cnt = 0;
-    res.lst = (char**)calloc(MAX_NAME, sizeof(char*));
+    res.lst = (char**)calloc(MAX_ADDRES, sizeof(char*));
     while(token != NULL){
         res.lst[res.cnt] = (char*)calloc(strlen(token) + 1, sizeof(char));
         strcpy(res.lst[res.cnt], token);
@@ -34,12 +34,13 @@ StringList get_string_list(char* str, char* del){
 }
 
 char* itos(int a){
+    if(a == 0) return "0";
     char* str = (char*)calloc(MAX_NAME, 1);
     int len = 0, tmp = a;
     while(tmp) len++, tmp /= 10;
     while(a){
         len--;
-        str[len] = a%10;
+        str[len] = a%10 + '0';
         a /= 10;
     }
     return str;
@@ -61,4 +62,12 @@ char* get_date(int date){
     char buffer[26];
     strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
     return get_string_ref(buffer);
+}
+
+
+char* replace_name_with_id(char* file_addres, int index){
+    return cat_string(
+        cat_string(itos(index), "."),
+        get_file_type(file_addres) 
+    );
 }
