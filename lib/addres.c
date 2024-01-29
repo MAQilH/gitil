@@ -30,6 +30,10 @@ char* get_gitil_addres(){
     return cat_string(get_root_addres(), ".gitil\\");
 }
 
+char *get_rel_addres(char* addres){
+    return addres + strlen(get_current_addres());
+}
+
 /* Config Addres */
 
 char* get_local_config_addres(){

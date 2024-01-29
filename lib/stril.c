@@ -46,6 +46,14 @@ char* itos(int a){
     return str;
 }
 
+int stoi(char* s){
+    int res = 0, len = strlen(s);
+    for(int i = 0; i < len; i++){
+        res = res*10 + (s[i] - '0');
+    }
+    return res;
+}
+
 char* get_file_name(char* file_addres){
     StringList stl = get_string_list(file_addres, "\\");
     return get_string_ref(stl.lst[stl.cnt-1]);

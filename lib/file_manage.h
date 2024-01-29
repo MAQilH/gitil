@@ -10,3 +10,4 @@ int remove_directory(char *path);
 int file_copy(char FileSource[], char FileDestination[]);
 void pop_from_file(int size, char* file_addres);
 int check_exist_in_folder(char *addres, char *folder_addres);
+int addres_distance(char *addres_child, char *addres_parent);

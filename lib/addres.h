@@ -2,6 +2,7 @@
 char *get_root_addres();
 char *get_current_addres();
 char* get_gitil_addres();
+char* get_rel_addres(char* addres);
 
 /* Config Addres*/
 char *get_local_config_addres();

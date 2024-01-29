@@ -7,3 +7,4 @@ char* get_date(int date);
 char* replace_name_with_id(char* file_addres, int index);
 int is_directory(char *path);
 int is_file(char *path);
+int stoi(char* s);

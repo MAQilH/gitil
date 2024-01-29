@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "lib.h"
 #include "../model/file_list_model.h"
+#include "../model/string_list_model.h"
 
 void create_folder(char* addres){
     CreateDirectory(addres, NULL);
@@ -144,4 +145,13 @@ void pop_from_file(int size, char* file_addres){
 int check_exist_in_folder(char *addres, char *folder_addres){
     if(strlen(folder_addres) > strlen(addres)) return 0;
     return strncmp(addres, folder_addres, strlen(folder_addres)) == 0;
+}
+
+int addres_distance(char *addres_child, char *addres_parent){
+    if(check_exist_in_folder(addres_child, addres_parent)){
+        StringList stl1 = get_string_list(addres_parent, "\\");
+        StringList stl2 = get_string_list(addres_child, "\\");
+        return stl2.cnt - stl1.cnt;
+    }
+    return INF;
 }

@@ -13,13 +13,27 @@ int add_file_rel_addres_to_file_list(FileList *flst, char* addres){
     return 1;
 }
 
-// void add_n(int dep){
-
-// }
+void add_n(int dep){
+    FileList flst = {.cnt = 0};
+    get_file_status(&flst, get_current_addres(), dep);
+    for(int i = 0; i < flst.cnt; i++){
+        if(in_stage(flst.lst[i].addres)){
+            char *msg = strcat(get_rel_addres(flst.lst[i].addres), " in stage!");
+            print_success(msg);
+        } else{
+            char *msg = strcat(get_rel_addres(flst.lst[i].addres), " not in stage!");
+            print_warn(msg);
+        }
+    }
+}
 
 void add(int argc, char *argv[]){
-    if(!strcmp(argv[2], "-redo")){
+    if(argc > 2 && !strcmp(argv[2], "-redo")){
         redo_from_stage();
+        return;
+    }
+    if(argc > 2 && !strcmp(argv[2], "-n")){
+        add_n(argc == 3? 1: stoi(argv[3]));
         return;
     }
     int ptr = 2;
@@ -32,7 +46,7 @@ void add(int argc, char *argv[]){
         char* addres = get_current_addres();
         addres = cat_string(addres, argv[ptr]);
         if(is_directory(addres)){
-            get_file_status(&flst, addres);
+            get_file_status(&flst, addres, MAX_DEP);
             print_success(msg);
         } else if(is_file(addres)){            
             if(add_file_rel_addres_to_file_list(&flst, addres)){

@@ -4,3 +4,4 @@
 #define MAX_DEP (30)
 #define MAX_EMAIL (100)
 #define MAX_MESSAGE (75)
+#define INF (1<<30)
