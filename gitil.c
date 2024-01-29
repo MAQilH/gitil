@@ -22,6 +22,8 @@ int main(int argc, char* argv_tmp[]){
         return 0;
     }
 
+    addsf
+
     char **argv = argv_tmp;
     if(argc == 2){
         char* command = get_alias(argv[1]);
