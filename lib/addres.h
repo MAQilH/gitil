@@ -1,4 +1,4 @@
-/* Proect Addres */
+/* Project Addres */
 char *get_root_addres();
 char *get_current_addres();
 char* get_gitil_addres();

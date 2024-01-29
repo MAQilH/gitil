@@ -64,10 +64,20 @@ char* get_date(int date){
     return get_string_ref(buffer);
 }
 
-
 char* replace_name_with_id(char* file_addres, int index){
     return cat_string(
         cat_string(itos(index), "."),
         get_file_type(file_addres) 
     );
+}
+
+int is_directory(char *path){
+    StringList stl = get_string_list(path, "\\");
+    char *last = stl.lst[stl.cnt-1];
+    StringList stl2 = get_string_list(last, ".");
+    return stl2.cnt < 2;
+}
+
+int is_file(char *path){
+    return !is_directory(path);
 }

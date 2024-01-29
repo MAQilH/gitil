@@ -19,7 +19,7 @@ char* exist_in_commit(char *commit_id, char* file_addres){
 State get_file_state_with_commit(char *commit_id, char* file_addres){
     char* addres_in_commit = exist_in_commit(commit_id, file_addres);
     if(!exist_file(file_addres)){
-        // if(addres_in_commit == NULL) return Unchange;
+        if(addres_in_commit == NULL) return NotFound;
         return Delete;
     }
     if(addres_in_commit == NULL) return Create;

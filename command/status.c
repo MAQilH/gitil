@@ -29,8 +29,10 @@ void dfs_get_file(FileList *flst, int dep, char* commit_id){
 
 void get_file_status(FileList *flst, char* folder_addres){
     char* saved = get_current_addres();
-    chdir(folder_addres);
-    dfs_get_file(flst, MAX_DEP, get_cuurent_HEAD_commit());
+    if(chdir(folder_addres) == 0){
+        dfs_get_file(flst, MAX_DEP, get_cuurent_HEAD_commit());
+        chdir(saved);
+    }
     FileList cmt_status_file = get_commit_status_file(get_cuurent_HEAD_commit());
     for(int i = 0; i < cmt_status_file.cnt; i++){
         if(
@@ -42,7 +44,6 @@ void get_file_status(FileList *flst, char* folder_addres){
             flst->lst[flst->cnt++] = cmt_status_file.lst[i];
         }
     } 
-    chdir(saved);
     return;
 }
 

@@ -8,6 +8,7 @@
 
 void test_env(int argc, char *argv[]){
     print_file_list_file(get_current_stage_info_addres());
+    // printf("%d\n", chdir(argv[2]));
 }
 
 int check_continue(int argc, char *argv[]){

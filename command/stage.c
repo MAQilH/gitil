@@ -30,6 +30,8 @@ void add_to_stage(FileList flst){
     fread(&current_stage, sizeof(current_stage), 1, stage_file);
     fclose(stage_file);
 
+    // print_file_list(current_stage);
+
     FileList flst_added;
 
     int last_cnt = current_stage.cnt;
@@ -43,6 +45,7 @@ void add_to_stage(FileList flst){
             current_stage.cnt++;
         }
     }
+    print_file_list(flst);
 
     stage_file = fopen(get_current_stage_info_addres(), "wb");
     fwrite(&current_stage, sizeof(current_stage), 1, stage_file);

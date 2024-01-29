@@ -1,4 +1,5 @@
 #include "../model/branch_model.h"
+#include "../model/file_list_model.h"
 #include "../lib/lib.h"
 #include "commit.h"
 #include <string.h>
@@ -32,6 +33,8 @@ void create_branch(char *branch_name, char *parent_branch_name){
     fclose(file);
 
     file = fopen(get_stage_info_addres(branch_name), "wb");
+    FileList flst = {.cnt = 0};
+    fwrite(&flst, sizeof(flst), 1, file);
     fclose(file);
 
     file = fopen(get_unstage_info_addres(branch_name), "wb");

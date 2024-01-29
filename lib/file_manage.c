@@ -45,15 +45,6 @@ int exist_file(char* addres){
     return access(addres, F_OK) != -1;
 }
 
-int is_directory(char *path){
-    DIR* dir = opendir(path);
-    if (dir != NULL) {
-        closedir(dir);
-        return 1;
-    }
-    return 0;
-}
-
 int file_cmp(char* file_addres1, char* file_addres2){
     FILE* file1 = fopen(file_addres1, "r");
     FILE* file2 = fopen(file_addres2, "r");
