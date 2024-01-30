@@ -1,5 +1,7 @@
 #include "../model/file_list_model.h"
 #include "../lib/lib.h"
+#include "stage.h"
+#include <sys/stat.h>
 
 void dfs_get_file(FileList *flst, int dep, char* commit_id){ 
     if(dep == 0) {
@@ -8,7 +10,7 @@ void dfs_get_file(FileList *flst, int dep, char* commit_id){
     DIR *dir = opendir(".");
     struct dirent *ent;
     while((ent = readdir(dir)) != NULL){
-        if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..")) continue;
+        if(!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, "..") || !strcmp(ent->d_name, ".gitil")) continue;
         if(is_directory(ent->d_name)){
             chdir(ent->d_name);
             dfs_get_file(flst, dep-1, commit_id);
@@ -47,6 +49,30 @@ void get_file_status(FileList *flst, char* folder_addres, int dep){
     return;
 }
 
-
-
-
+void status(int argc, char *argv[]){ // if add -p addres show from root project
+    FileList flst = {.cnt = 0};
+    char* addres;
+    if(argc > 2 && !strcmp(argv[2], "-p")){
+        get_file_status(&flst, addres = get_root_addres(), MAX_DEP);
+    } else{
+        get_file_status(&flst, addres = get_current_addres(), 1);
+    }
+    for(int i = 0; i < flst.cnt; i++){
+        char st[MAX_NAME] = "+A  ";
+        if(flst.lst[i].state == Modified) st[1] = 'M';
+        else if(flst.lst[i].state == Delete) st[1] = 'D';
+        else if(flst.lst[i].state == Create) st[1] = 'A';
+        else if(flst.lst[i].state == Access) st[1] = 'T'; // TODO: check affter write commit
+        else continue;
+        
+        if(in_stage(flst.lst[i].addres)){
+            st[0] = '+';
+            char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
+            print_success(msg);
+        } else{
+            st[0] = '-';
+            char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
+            print_fail(msg);
+        }
+    }
+}

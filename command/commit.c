@@ -9,11 +9,7 @@ char* exist_in_commit(char *commit_id, char* file_addres){
         file_addres
     );
     if(sts == Delete || sts == NotFound) return NULL; 
-    int index = find_index_in_file_list_with_addres(
-        get_commit_status_file_addres(commit_id),
-        file_addres
-    );
-    return replace_name_with_id(file_addres, index);
+    return replace_name_with_hash(file_addres);
 }
 
 State get_file_state_with_commit(char *commit_id, char* file_addres){
@@ -23,7 +19,11 @@ State get_file_state_with_commit(char *commit_id, char* file_addres){
         return Delete;
     }
     if(addres_in_commit == NULL) return Create;
-    if(file_cmp(addres_in_commit, file_addres)) return Unchange;
+    if(file_cmp(addres_in_commit, file_addres)){
+        // if(get_premisson_file(addres_in_commit) == get_premisson_file(file_addres))
+        //     return Unchange;
+        return Access;
+    }
     return Modified;
 }
 
@@ -72,7 +72,7 @@ void push_stage(){
     
 }
 
-void create_commit(char* message){
+int create_commit(char* message){
     char *commit_id = create_random_commit_id();
     Commit cmt;
     strcpy(cmt.message, message);

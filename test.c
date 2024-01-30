@@ -12,6 +12,6 @@ int check_exist_in_folder(char *addres, char *folder_addres){
 }
 
 int main(){
-    printf("%d", check_exist_in_folder("asd", "asd"));
+    system("dir");
     return 0;
 }

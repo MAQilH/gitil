@@ -1,12 +1,14 @@
 #include "../lib/lib.h"
 #include "../model/file_list_model.h"
 
-char* get_name_file_in_stage_change(File fl){
-    return replace_name_with_id(
-        fl.addres,
-        find_index_in_file_list_with_addres(
-            get_current_stage_info_addres(),
-            fl.addres
+char* get_name_file_in_stage_change(File* fl){
+    return replace_name_with_hash(fl->addres);
+}
+
+void remove_file_in_stage_change(File* fl){
+    remove(
+        get_current_stage_changes_file_addres(
+            get_name_file_in_stage_change(fl)
         )
     );
 }
@@ -18,77 +20,75 @@ int in_stage(char *file_addres){
     ) != NotFound;
 }
 
-void add_to_unstage(FileList flst){
-    FILE* unstage_file = fopen(get_current_unstage_info_addres(), "ab");
-    fwrite(&flst, sizeof(flst), 1, unstage_file);
-    fclose(unstage_file);
+void add_to_mem_stage(FileList* flst){
+    FILE* mem_stage_file = fopen(get_current_mem_stage_info_addres(), "rb");
+    FileList mem_stage;
+    fread(&mem_stage, sizeof(mem_stage), 1, mem_stage_file);
+    fclose(mem_stage_file);
+
+    for(int i = 0; i < flst->cnt; i++){
+        mem_stage.lst[mem_stage.cnt++] = flst->lst[i];
+    }
+
+    mem_stage_file - fopen(get_current_mem_stage_info_addres(), "wb");
+    fwrite(&mem_stage, sizeof(mem_stage), 1, mem_stage_file);
+    fclose(mem_stage_file);
 }
 
-void add_to_stage(FileList flst){
+void redo(){
+    FILE* mem_stage_file = fopen(get_current_mem_stage_info_addres(), "rb");
+    FileList mem_stage;
+    fread(&mem_stage, sizeof(mem_stage), 1, mem_stage_file);
+    fclose(mem_stage_file);
+
+    FileList add_file_list = {.cnt = 0};
+    for(int i = 0; i < mem_stage.cnt; i++){
+        int added = 0;
+        for(int j = 0; j < add_file_list.cnt; j++){
+            if(!strcmp(add_file_list.lst[j].addres, mem_stage.lst[i].addres)){
+                added = 1;
+                break;
+            }
+        }
+        if(!added) added = in_stage(mem_stage.lst[i].addres);
+        
+        if(!added){
+            add_file_list.lst[add_file_list.cnt++] = mem_stage.lst[i];
+        }
+    }
+
+    add_to_stage(&add_file_list);
+}
+
+void add_to_stage(FileList *flst){
     FILE* stage_file = fopen(get_current_stage_info_addres(), "rb");
     FileList current_stage;
     fread(&current_stage, sizeof(current_stage), 1, stage_file);
     fclose(stage_file);
 
-    // print_file_list(current_stage);
-
-    FileList flst_added;
-
-    int last_cnt = current_stage.cnt;
-    for(int i = 0; i < flst.cnt; i++){
-        if(!in_stage(flst.lst[i].addres)){
-            flst_added.lst[flst_added.cnt++] = flst.lst[i];
-            current_stage.lst[current_stage.cnt] = flst.lst[i];
-            if(flst.lst[i].state != Delete){
-                file_copy(flst.lst[i].addres, get_current_stage_changes_file_addres(replace_name_with_id(flst.lst[i].addres, current_stage.cnt)));
-            }
-            current_stage.cnt++;
+    for(int i = 0; i < flst->cnt; i++){
+        current_stage.lst[current_stage.cnt] = flst->lst[i];
+        if(in_stage(flst->lst[i].addres)){
+            int index = find_index_in_file_list_with_addres(
+                get_current_stage_info_addres(),
+                flst->lst[i].addres
+            );
+            current_stage.lst[index] = blanck_file();
         }
+        if(flst->lst[i].state != Delete){
+            file_copy(flst->lst[i].addres, get_current_stage_changes_file_addres(replace_name_with_hash(flst->lst[i].addres)));
+        }
+        current_stage.cnt++;
     }
-    print_file_list(flst);
 
+    // print_file_list(current_stage);
+    // current_stage = get_clean_file_list(&current_stage);
+    // print_file_list(current_stage);
+    
     stage_file = fopen(get_current_stage_info_addres(), "wb");
     fwrite(&current_stage, sizeof(current_stage), 1, stage_file);
     fclose(stage_file);
 
-    add_to_unstage(flst_added);
-}
-
-int redo_from_stage(){
-    FILE* unstage_info_file = fopen(get_current_unstage_info_addres(), "rb");
-    FileList last_added_stage;
-    fseek(unstage_info_file, 0, SEEK_END);
-    if(ftell(unstage_info_file) == 0){
-        fclose(unstage_info_file);
-        return 0;
-    }
-    int size = sizeof(last_added_stage);
-    fseek(unstage_info_file, -size, SEEK_END);
-    if(fread(&last_added_stage, sizeof(last_added_stage), 1, unstage_info_file)){
-        fclose(unstage_info_file);
-        for(int i = 0; i < last_added_stage.cnt; i++){
-            if(last_added_stage.lst[i].state != Delete){
-                remove(
-                    get_current_stage_changes_file_addres(
-                        get_name_file_in_stage_change(last_added_stage.lst[i])
-                    )
-                );
-            }
-        }
-        pop_from_file(sizeof(last_added_stage), get_current_unstage_info_addres());
-
-        FILE* stage_file = fopen(get_current_stage_info_addres(), "rb");
-        FileList current_stage;
-        fread(&current_stage, sizeof(current_stage), 1, stage_file);
-        fclose(stage_file);
-
-        current_stage.cnt -= last_added_stage.cnt;
-
-        stage_file = fopen(get_current_stage_info_addres(), "wb");
-        fwrite(&current_stage, sizeof(current_stage), 1, stage_file);
-        fclose(stage_file);
-        return 1;
-    }
-    fclose(unstage_info_file);
-    return 0;
+    add_to_mem_stage(flst);
+    add_to_undo_file(flst);
 }

@@ -72,9 +72,23 @@ char* get_date(int date){
     return get_string_ref(buffer);
 }
 
-char* replace_name_with_id(char* file_addres, int index){
+char* get_hash(char* s){
+    int len = strlen(s);
+    long long seed = 0;
+    for(int i = 0; i < len; i++){
+        seed = ((long long)seed*PRIME + s[i])%MOD;
+    }
+    srand(seed);
+    char* hash = (char*)calloc(MAX_HASH + 1, 1);
+    for(int i = 0; i < MAX_HASH; i++){
+        hash[i] = (char)(rand()%26 + 'a');
+    }
+    return hash;
+}
+
+char* replace_name_with_hash(char* file_addres){
     return cat_string(
-        cat_string(itos(index), "."),
+        cat_string(get_hash(file_addres), "."),
         get_file_type(file_addres) 
     );
 }

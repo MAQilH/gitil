@@ -30,8 +30,12 @@ char* get_gitil_addres(){
     return cat_string(get_root_addres(), ".gitil\\");
 }
 
+char *get_rel_addres_from(char* addres, char *from){
+    return addres + strlen(from);
+}
+
 char *get_rel_addres(char* addres){
-    return addres + strlen(get_current_addres());
+    return get_rel_addres_from(addres, get_current_addres());
 }
 
 /* Config Addres */
@@ -82,6 +86,10 @@ char *get_commit_info_addres(char* branch_name){  // \.gitil\branch\branch123\co
     return cat_string(get_branch_folder_addres(branch_name), "commit_info.dat");
 }
 
+char *get_mem_stage_info_addres(char* branch_name){  // \.gitil\branch\branch123\mem_stage_info.dat
+    return cat_string(get_branch_folder_addres(branch_name), "mem_stage_info.dat");
+}
+
 char *get_stage_changes_folder_addres(char* branch_name){
     return cat_string(get_branch_folder_addres(branch_name), "stage_change\\"); 
 }
@@ -112,6 +120,10 @@ char *get_current_stage_changes_folder_addres(){
 
 char *get_current_stage_changes_file_addres(char *file_name){
     return get_stage_changes_file_addres(get_HEAD(), file_name);
+}
+
+char *get_current_mem_stage_info_addres(){
+    return get_mem_stage_info_addres(get_HEAD());
 }
 
 

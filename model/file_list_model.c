@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
-void print_file_list(FileList flst){
+void print_file_list(FileList flst){ /* delete blanck file */
+    flst = get_clean_file_list(&flst);
     printf("count: %d\n", flst.cnt);
     for(int i = 0; i < flst.cnt; i++){
         print_file(flst.lst[i]);
@@ -54,4 +55,14 @@ int find_index_in_file_list_with_addres(char *file_addres, char* query){
     fread(&flst, sizeof(flst), 1, file);
     fclose(file);
     return find_index_in_file_list(&flst, query);
+}
+
+FileList get_clean_file_list(FileList* flst){ /* Import!!!!! its change order of file!!!! */
+    FileList res = {.cnt = 0};
+    for(int i = 0; i < flst->cnt; i++){
+        if(!is_blanck(&flst->lst[i])){
+            res.lst[res.cnt++] = flst->lst[i];
+        }
+    }
+    return res;
 }

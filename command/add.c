@@ -29,7 +29,7 @@ void add_n(int dep){
 
 void add(int argc, char *argv[]){
     if(argc > 2 && !strcmp(argv[2], "-redo")){
-        redo_from_stage();
+        redo();
         return;
     }
     if(argc > 2 && !strcmp(argv[2], "-n")){
@@ -58,6 +58,6 @@ void add(int argc, char *argv[]){
                 print_warn(msg);
             }
         }
-        add_to_stage(flst);
+        add_to_stage(&flst);
     }
 }

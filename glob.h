@@ -4,4 +4,7 @@
 #define MAX_DEP (30)
 #define MAX_EMAIL (100)
 #define MAX_MESSAGE (75)
+#define MAX_HASH (20)
+#define MOD (1000000007)
+#define PRIME (9973)
 #define INF (1<<30)

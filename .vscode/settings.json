@@ -33,6 +33,7 @@
         "model.h": "c",
         "file_list_model.h": "c",
         "random": "c",
-        "stage.h": "c"
+        "stage.h": "c",
+        "status.h": "c"
     }
 }

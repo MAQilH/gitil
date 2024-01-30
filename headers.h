@@ -4,3 +4,5 @@
 #include "./command/delete.h"
 #include "./command/add.h"
 #include "./command/commit.h"
+#include "./command/reset.h"
+#include "./command/status.h"

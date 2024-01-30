@@ -131,6 +131,7 @@ int file_copy(char FileSource[], char FileDestination[]){
         fputc(c, stream_W);
     fclose(stream_R);
     fclose(stream_W);
+    chmod(FileDestination, get_premisson_file(FileSource));
     return 0;
 }
 
@@ -154,4 +155,10 @@ int addres_distance(char *addres_child, char *addres_parent){
         return stl2.cnt - stl1.cnt;
     }
     return INF;
+}
+
+int get_premisson_file(char *file_addres){
+    struct stat file_state;
+    stat(file_addres, &file_state);
+    return file_state.st_mode;
 }

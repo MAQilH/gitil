@@ -7,8 +7,9 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
+    // printf("asd\n");
     print_file_list_file(get_current_stage_info_addres());
-    // printf("%d\n", chdir(argv[2]));
+
 }
 
 int check_continue(int argc, char *argv[]){
@@ -17,7 +18,7 @@ int check_continue(int argc, char *argv[]){
 }
 
 int main(int argc, char* argv_tmp[]){
-    if(!strcmp(argv_tmp[1], "test")){
+    if(argc == 1 || !strcmp(argv_tmp[1], "test")){
         test_env(argc, argv_tmp);
         return 0;
     }
@@ -47,9 +48,14 @@ int main(int argc, char* argv_tmp[]){
         print_warn("fuck you :)");
     } else if(!strcmp(act, "add")){
         add(argc, argv);
+    } else if(!strcmp(act, "reset")){
+        reset(argc, argv);
+    } else if(!strcmp(act, "status")){
+        status(argc, argv);
     }
     else {
         print_fail("fail: input is invalid!");
     }
+
     return 0;
 }

@@ -1,0 +1,1 @@
+void status(int arg, char *argv[]);
