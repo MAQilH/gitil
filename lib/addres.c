@@ -129,8 +129,12 @@ char *get_current_mem_stage_info_addres(){
 
 /* Commit */
 
+char *get_commits_info_addres(){
+    return cat_string(get_gitil_addres(), "commits_info.dat");
+}
+
 char *get_commits_folder_addres(char* branch_name){
-    return strcat(get_branch_folder_addres(branch_name), "commits\\");
+    return cat_string(get_branch_folder_addres(branch_name), "commits\\");
 }
 
 char *get_commit_folder_addres(char* commit_id){
@@ -142,4 +146,11 @@ char *get_commit_folder_addres(char* commit_id){
 
 char *get_commit_status_file_addres(char* commit_id){
     return cat_string(get_commit_folder_addres(commit_id), "file_status.dat");
+}
+
+char *get_commit_saved_file_addres(char* commit_addres, char* file_addres){
+    return cat_string(
+        get_commit_folder_addres(commit_addres),
+        replace_name_with_hash(file_addres)
+    );
 }

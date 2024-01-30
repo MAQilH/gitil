@@ -31,6 +31,8 @@ char *get_current_stage_changes_file_addres(char *file_name);
 char *get_current_mem_stage_info_addres();
 
 /* Commit Addres */
+char *get_commits_info_addres();
 char *get_commits_folder_addres(char* branch_name);
 char *get_commit_folder_addres(char* commit_id);
 char *get_commit_status_file_addres(char* commit_id);
+char *get_commit_saved_file_addres(char* commit_addres, char* file_addres);

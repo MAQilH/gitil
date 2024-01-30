@@ -1,4 +1,4 @@
-#define MAX_NAME (50)
+#define MAX_NAME (100)
 #define MAX_ADDRES (260)
 #define MAX_COMA (20)
 #define MAX_DEP (30)

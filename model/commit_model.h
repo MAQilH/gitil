@@ -9,3 +9,4 @@ typedef struct Commit{
 
 void print_commit(Commit cmt);
 void print_commit_file(char* file_addres);
+Commit create_commit(char *message);

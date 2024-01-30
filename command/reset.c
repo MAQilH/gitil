@@ -1,6 +1,14 @@
 #include "../lib/lib.h"
 #include "../model/file_list_model.h"
 
+void remove_file_in_stage_change(File* fl){
+    remove(
+        get_current_stage_changes_file_addres(
+            get_name_file_in_stage_change(fl)
+        )
+    );
+}
+
 void add_to_undo_file(FileList *flst){
     FILE* unstage_file = fopen(get_current_unstage_info_addres(), "ab");
     fwrite(flst, sizeof(*flst), 1, unstage_file);
@@ -26,16 +34,10 @@ int undo_from_stage(){
         }
         pop_from_file(sizeof(last_added_stage), get_current_unstage_info_addres());
 
-        FILE* stage_file = fopen(get_current_stage_info_addres(), "rb");
-        FileList current_stage;
-        fread(&current_stage, sizeof(current_stage), 1, stage_file);
-        fclose(stage_file);
-
+        FileList current_stage = get_file_list(get_current_stage_info_addres());
         current_stage.cnt -= last_added_stage.cnt;
+        set_file_list(get_current_stage_info_addres(), &current_stage);
 
-        stage_file = fopen(get_current_stage_info_addres(), "wb");
-        fwrite(&current_stage, sizeof(current_stage), 1, stage_file);
-        fclose(stage_file);
         return 1;
     }
     fclose(unstage_info_file);

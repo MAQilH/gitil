@@ -15,3 +15,5 @@ FileList get_commit_status_file(char *commit_id);
 void get_file_status(FileList *flst, char* folder_addres, int dep);
 FileList get_clean_file_list(FileList* flst);
 void add_to_undo_file(FileList *flst);
+FileList get_file_list(char* addres);
+void set_file_list(char* addres, FileList* flst);

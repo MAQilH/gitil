@@ -4,6 +4,10 @@
 #include "lib.h"
 #include "../model/string_list_model.h"
 
+char* get_string(int len){
+    return (char*)calloc(len + 1, sizeof(char));
+}
+
 char* get_string_ref(char *c){
     char *tmp = (char*)calloc(strlen(c) + 1, 1);
     strcpy(tmp, c);
@@ -25,7 +29,7 @@ StringList get_string_list(char* str, char* del){
     res.cnt = 0;
     res.lst = (char**)calloc(MAX_ADDRES, sizeof(char*));
     while(token != NULL){
-        res.lst[res.cnt] = (char*)calloc(strlen(token) + 1, sizeof(char));
+        res.lst[res.cnt] = get_string(strlen(token));
         strcpy(res.lst[res.cnt], token);
         res.cnt++;
         token = strtok(NULL, del);
@@ -35,7 +39,7 @@ StringList get_string_list(char* str, char* del){
 
 char* itos(int a){
     if(a == 0) return "0";
-    char* str = (char*)calloc(MAX_NAME, 1);
+    char* str = get_string(MAX_COMA);
     int len = 0, tmp = a;
     while(tmp) len++, tmp /= 10;
     while(a){
@@ -79,7 +83,7 @@ char* get_hash(char* s){
         seed = ((long long)seed*PRIME + s[i])%MOD;
     }
     srand(seed);
-    char* hash = (char*)calloc(MAX_HASH + 1, 1);
+    char* hash = get_string(MAX_HASH);
     for(int i = 0; i < MAX_HASH; i++){
         hash[i] = (char)(rand()%26 + 'a');
     }

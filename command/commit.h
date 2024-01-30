@@ -1,1 +1,1 @@
-void create_commit(char* message);
+int commit(int argc, char *argv[]);

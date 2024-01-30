@@ -3,6 +3,21 @@
 #include <stdio.h>
 #include <string.h>
 
+FileList get_file_list(char* addres){
+    FILE *file = fopen(addres, "rb");
+    FileList flst;
+    fread(&flst, sizeof(flst), 1, file);
+    fclose(file);
+    return flst;
+}
+
+void set_file_list(char* addres, FileList* flst){
+    FILE* file = fopen(addres, "wb");
+    fwrite(flst, sizeof(*flst), 1, file);
+    fclose(file);
+    return;
+}
+
 void print_file_list(FileList flst){ /* delete blanck file */
     flst = get_clean_file_list(&flst);
     printf("count: %d\n", flst.cnt);

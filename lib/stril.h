@@ -1,3 +1,4 @@
+char* get_string(int len);
 char* cat_string(char* l, char* r);
 char* get_string_ref(char* str);
 char* itos(int a);

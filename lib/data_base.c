@@ -17,21 +17,15 @@ char* get_HEAD(){
 }
 
 char* get_commit_branch(char *commit_id){
-    FILE *branch_info_file = fopen(get_branch_info_addres(), "rb");
-    Branch brn;
-    while(fread(&brn, sizeof(brn), 1, branch_info_file)){
-        FILE *commit_info_file = fopen(get_commit_info_addres(brn.name), "rb");
-        Commit cmt;
-        while(fread(&cmt, sizeof(cmt), 1, commit_info_file)){
-            if(!strcmp(cmt.commit_id, commit_id)){
-                fclose(commit_info_file);
-                fclose(branch_info_file);
-                return get_string_ref(brn.name);
-            }
-        } 
-        fclose(commit_info_file);
+    FILE *commits_file = fopen(get_current_commit_info_addres(), "rb");
+    Commit cmt;
+    while(fread(&cmt, sizeof(cmt), 1, commits_file)){
+        if(!strcmp(cmt.commit_id, commit_id)){
+            break;
+        }
     }
-    fclose(branch_info_file);
+    fclose(commits_file);
+    return get_string_ref(cmt.branch_name);
 }
 
 char *get_branch_head_commit(char* branch_name){
@@ -43,3 +37,30 @@ char* get_cuurent_HEAD_commit(){
     return get_branch_head_commit(get_HEAD());
 }
 
+char* get_current_commit(){
+    Config loc = get_config(get_local_config_addres());
+    return get_string_ref(loc.current_commit);
+}
+
+void set_HEAD_branch(char* branch_name){
+    Config loc = get_config(get_local_config_addres());
+    strcpy(loc.current_commit, get_branch(branch_name).head_commit_id);
+    strcpy(loc.head, branch_name);
+    set_config(get_local_config_addres(), &loc);
+}
+
+void set_current_commit(char *commit_id){
+    Config loc = get_config(get_local_config_addres());
+    strcpy(loc.current_commit, commit_id);
+    set_config(get_local_config_addres(), &loc);
+}
+
+int get_rand(){
+    Config loc = get_config(get_local_config_addres());
+    srand(loc.seed);
+    int res = rand();
+    res = abs(res);
+    loc.seed = res;
+    set_config(get_local_config_addres(), &loc);
+    return res;
+}
