@@ -154,3 +154,7 @@ char *get_commit_saved_file_addres(char* commit_addres, char* file_addres){
         replace_name_with_hash(file_addres)
     );
 }
+
+char *get_shortcut_commit_addres(){
+    return cat_string(get_gitil_addres(), "shortcut_commit.dat");
+}

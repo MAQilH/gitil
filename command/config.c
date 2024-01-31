@@ -47,6 +47,7 @@ int config(int argc, char *argv[]){
         strcpy(als.to, argv[argc-1]);
         add_alias(in_global? get_global_alias_addres(): get_local_alias_addres(), als);
     }
+    print_success("config changes!");
     return 1;
 }
 
@@ -77,5 +78,7 @@ void create_global_config(){
 
 void create_local_config(){
     create_config(get_current_addres());
+    FILE *file = fopen(get_shortcut_commit_addres(), "wb");
+    fclose(file);
 }
 

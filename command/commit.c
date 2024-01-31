@@ -3,6 +3,7 @@
 #include "../model/file_list_model.h"
 #include "../model/branch_model.h"
 #include "branch.h"
+#include "commit_shortcut.h"
 
 int check_exist_commit(char* commit_id){
     FILE *commits_info_file = fopen(get_commits_info_addres(), "rb");
@@ -189,7 +190,15 @@ int validate_create_commit(char* message, char* res){
 }
 
 int commit(int argc, char *argv[]){
-    if(argc != 4 || strcmp(argv[2], "-m")) return 0;
+    if(argc != 4) return 0;
+    char* commit_msg = argv[2];
+    if(!strcmp(argv[2], "-s")){
+        commit_msg = get_commit_shortcut(argv[3]);
+        if(commit_msg == NULL){
+            print_fail("fail: shortcut not founded!");
+            return 0;
+        }
+    }
     char* msg = get_string(MAX_MESSAGE);
     if(validate_create_commit(argv[3], msg)){
         Commit cmt = create_commit(argv[3]);

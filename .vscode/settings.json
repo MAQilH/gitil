@@ -39,6 +39,7 @@
         "checkout.h": "c",
         "chrono": "c",
         "ranges": "c",
-        "variant": "c"
+        "variant": "c",
+        "commit_shortcut.h": "c"
     }
 }

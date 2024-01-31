@@ -9,6 +9,7 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
+    print_alias_file(get_shortcut_commit_addres());
     // printf("asd\n");
     // print_file_list_file(get_commit_status_file_addres(get_current_commit()));
     // print_file_list_file(get_current_mem_stage_info_addres());
@@ -42,11 +43,10 @@ int main(int argc, char* argv_tmp[]){
     }
 
     char* act = argv[1];
-    if(!strcmp(act, "init")) init(argc, argv);
-    else if(!strcmp(act, "config")) {
-        if(config(argc, argv)){
-            print_success("config changes!");
-        }
+    if(!strcmp(act, "init")){
+        init(argc, argv);
+    } else if(!strcmp(act, "config")) {
+        config(argc, argv);
     } else if(!strcmp(act, "delete")){
         del(argc, argv);
     } else if(!strcmp(act, "add")){
@@ -61,7 +61,10 @@ int main(int argc, char* argv_tmp[]){
         branch(argc, argv);
     } else if(!strcmp(act, "checkout")){
         checkout(argc, argv);
-    }else {
+    } else if(!strcmp(act, "set") || !strcmp(act, "replace") || !strcmp(act, "remove")){
+        shortcut(argc, argv);
+    }
+    else {
         print_fail("fail: input is invalid!");
     }
 

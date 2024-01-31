@@ -8,3 +8,4 @@
 #include "./command/status.h"
 #include "./command/branch.h"
 #include "./command/checkout.h"
+#include "./command/commit_shortcut.h"
