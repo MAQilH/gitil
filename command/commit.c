@@ -55,7 +55,7 @@ char* exist_in_commit(char *commit_id, char* file_addres){
     return get_commit_saved_file_addres(commit_id, file_addres);
 }
 
-State get_file_state_with_commit(char *commit_id, char* file_addres){ // TODO: dastan dare
+State get_file_state_with_commit(char *commit_id, char* file_addres){ // TODO: ino baiad bebarm to diff
     char* addres_in_commit = exist_in_commit(commit_id, file_addres);
     if(!exist_file(file_addres)){
         if(addres_in_commit == NULL) return NotFound;
@@ -159,7 +159,6 @@ Commit create_commit(char *message){
     strcpy(cmt.commit_id, commit_id);
     cmt.date = time(NULL);
 
-
     append_commit(cmt);
     create_commit_init_file(commit_id);
     push_stage(commit_id);
@@ -187,6 +186,16 @@ int validate_create_commit(char* message, char* res){
 
     strcpy(res, "commit created!");
     return 1; 
+}
+
+int get_number_commited_file(char* commit_id){
+    FileList status_file = get_commit_status_file(commit_id);
+    int cnt = 0;
+    for(int i = 0; i < status_file.cnt; i++){
+        if(status_file.lst[i].state == NotFound) break; 
+        cnt++;
+    }
+    return cnt;
 }
 
 int commit(int argc, char *argv[]){

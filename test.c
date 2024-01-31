@@ -11,11 +11,16 @@ int check_exist_in_folder(char *addres, char *folder_addres){
     return strncmp(addres, folder_addres, strlen(folder_addres)) == 0;
 }
 
-void f(char* s){
-    printf("%s\n", s);
+int a = 2, b = 4;
+
+void f(int* x){
+    x = &a;
 }
 
 int main(){
-    f("sadffs");
+    int* y = &b;
+    printf("%d", *y);
+    f(y);
+    printf("%d", *y);
     return 0;
 }

@@ -72,7 +72,7 @@ char* get_date(int date){
     time_t epoch_seconds = date;
     struct tm *tm_info = localtime(&epoch_seconds);
     char buffer[26];
-    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    strftime(buffer, 26, "%Y-%m-%d/%H:%M:%S", tm_info);
     return get_string_ref(buffer);
 }
 
@@ -106,4 +106,38 @@ int is_directory(char *path){
 
 int is_file(char *path){
     return !is_directory(path);
+}
+
+int wildcard_checker(char* wild, char* word){
+    wild = get_string_ref(wild);
+    word = get_string_ref(word);
+    while(*wild != '*'){
+        if(*wild == '\0'){
+            return *word == '\0';
+        }
+        if(*word != *wild) return 0;
+        word++, wild++;
+    }
+    int ptr_wild = strlen(wild)-1, ptr_word = strlen(word)-1;
+    while(ptr_wild >= 0){
+        if(wild[ptr_wild] == '*') break;
+        if(ptr_word < 0) return 0;
+        if(word[ptr_word] != wild[ptr_wild]) return 0;
+        word[ptr_word] = '\0';
+        wild[ptr_wild] = '\0';
+        ptr_wild--, ptr_word--;
+    }
+    if(ptr_wild < 0) return ptr_word < 0;
+    for(int i = 1; wild[i] != '\0'; i++){
+        if(wild[i] != '*' && wild[i-1] == '*'){
+            int len = 0;
+            while(wild[i + len] != '*') len++;
+            while(1){
+                if(strlen(word) < len) return 0;
+                if(!strncmp(word, wild + i, len)) break;
+                word++;
+            }
+        }
+    }
+    return 1;
 }

@@ -39,7 +39,7 @@ void create_branch(char *branch_name){
     file = fopen(get_unstage_info_addres(branch_name), "wb");
     fclose(file);
 
-    set_HEAD_branch(branch_name);
+    // set_HEAD_branch(branch_name); 
     if(!strcmp(branch_name, "master")){
         create_commit("gitil added!");
     }

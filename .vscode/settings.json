@@ -40,6 +40,7 @@
         "chrono": "c",
         "ranges": "c",
         "variant": "c",
-        "commit_shortcut.h": "c"
+        "commit_shortcut.h": "c",
+        "log.h": "c"
     }
 }

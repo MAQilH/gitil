@@ -2,8 +2,6 @@
 #include "../lib/lib.h"
 
 int set_commit_shortcut(char* msg, char* shortcut){
-    print_error(msg);
-    print_error(shortcut);
     Alias als;
     strcpy(als.from, shortcut);
     strcpy(als.to, msg);
