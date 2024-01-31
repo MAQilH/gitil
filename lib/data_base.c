@@ -17,7 +17,7 @@ char* get_HEAD(){
 }
 
 char* get_commit_branch(char *commit_id){
-    FILE *commits_file = fopen(get_current_commit_info_addres(), "rb");
+    FILE *commits_file = fopen(get_commits_info_addres(), "rb");
     Commit cmt;
     while(fread(&cmt, sizeof(cmt), 1, commits_file)){
         if(!strcmp(cmt.commit_id, commit_id)){

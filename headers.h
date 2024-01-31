@@ -6,3 +6,4 @@
 #include "./command/commit.h"
 #include "./command/reset.h"
 #include "./command/status.h"
+#include "./command/branch.h"

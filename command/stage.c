@@ -45,7 +45,6 @@ void redo(){
 void add_to_stage(FileList *flst){
     FileList current_stage = get_file_list(get_current_stage_info_addres());
     for(int i = 0; i < flst->cnt; i++){
-        // print_fail(itos(current_stage.cnt));
         current_stage.lst[current_stage.cnt] = flst->lst[i];
         if(in_stage(flst->lst[i].addres)){
             int index = find_index_in_file_list_with_addres(
@@ -59,11 +58,6 @@ void add_to_stage(FileList *flst){
         }
         current_stage.cnt++;
     }
-
-
-    // print_file_list(current_stage);
-    // current_stage = get_clean_file_list(&current_stage);
-    // print_file_list(current_stage);
     
     set_file_list(get_current_stage_info_addres(), &current_stage);
 

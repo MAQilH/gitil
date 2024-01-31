@@ -21,7 +21,6 @@ void create_branch(char *branch_name){
     }
     brn.date = time(NULL);
 
-
     create_folder(get_branch_folder_addres(branch_name));
     create_folder(get_commits_folder_addres(branch_name));
     create_folder(get_stage_changes_folder_addres(branch_name));
@@ -80,14 +79,14 @@ int validate_branch(char* branch_name, char *res){
     Branch brn;
     while(fread(&brn, sizeof(brn), 1, file)){
         if(!strcmp(brn.name, branch_name)){
-            res = "fail: name is duplicated!";
+            strcpy(res, "fail: name is duplicated!");
             return 0;
         }
     }
 
-    res = "Branch ";
-    res = cat_string(res, branch_name);
-    res = cat_string(res, " created!");
+    strcpy(res, "Branch ");
+    strcat(res, branch_name);
+    strcat(res, " created!");
     return 1;
 }
 
@@ -103,7 +102,7 @@ void branch(int argc, char *argv[]){
     if(argc == 2){
         show_branchs();
     } else{
-        char* msg = (char*)calloc(MAX_MESSAGE, sizeof(char));
+        char* msg = get_string(MAX_MESSAGE);
         if(validate_branch(argv[2], msg)){
             create_branch(argv[2]);
             print_success(msg);

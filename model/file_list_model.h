@@ -1,7 +1,8 @@
+#include "../glob.h"
 #include "file_model.h"
 typedef struct FileList{
     int cnt;
-    File lst[200];
+    File lst[MAX_FILE_LIST];
 } FileList;
 void merge_file_list(FileList *dest, FileList src);
 void print_file_list(FileList flst);
@@ -17,3 +18,4 @@ FileList get_clean_file_list(FileList* flst);
 void add_to_undo_file(FileList *flst);
 FileList get_file_list(char* addres);
 void set_file_list(char* addres, FileList* flst);
+int add_file_rel_addres_to_file_list(FileList *flst, char* addres);

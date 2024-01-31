@@ -3,12 +3,40 @@
 #include "../model/file_list_model.h"
 #include "../model/branch_model.h"
 
+char* get_prev_commit_id(char* commit_id){
+    if(commit_id == NULL) return NULL;
+    char* branch_name = get_commit_branch(commit_id);
+    FILE *commits_info_file = fopen(get_commits_info_addres(), "rb");
+    Commit last_cmt;
+    fread(&last_cmt, sizeof(last_cmt), 1, commits_info_file);
+    if(!strcmp(last_cmt.commit_id, commit_id)){
+        fclose(commits_info_file);
+        if(!strcmp(branch_name, "master")) return NULL;
+        Branch brn = get_branch(branch_name);
+        return get_string_ref(brn.parent_commit_id);
+    }
+    Commit cmt;
+    while(fread(&cmt, sizeof(cmt), 1, commits_info_file)){
+        if(!strcmp(cmt.commit_id, commit_id)){
+            break;
+        }
+        last_cmt = cmt;
+    }
+    fclose(commits_info_file);
+    return get_string_ref(last_cmt.commit_id);
+}
+
 char* exist_in_commit(char *commit_id, char* file_addres){
+    if(commit_id == NULL || !strcmp(commit_id, "master")) return NULL;
     State sts = find_in_file_list_with_addres(
         get_commit_status_file_addres(commit_id),
         file_addres
     );
-    if(sts == Delete || sts == NotFound) return NULL; 
+    // print_warn(get_commit_status_file_addres(commit_id));
+    if(sts == Delete) return NULL;
+    if(sts == NotFound){
+        return exist_in_commit(get_prev_commit_id(commit_id), file_addres);
+    } 
     return get_commit_saved_file_addres(commit_id, file_addres);
 }
 
@@ -68,6 +96,7 @@ void create_commit_init_file(char* commit_id){
 
 void clear_stage(){
     FileList stage_file = get_file_list(get_current_stage_info_addres());
+    stage_file = get_clean_file_list(&stage_file);
     for(int i = 0; i < stage_file.cnt; i++){
         remove_file_in_stage_change(&stage_file.lst[i]);
     }
@@ -94,7 +123,8 @@ void push_stage(char* commit_id){
     FileList all_project_file = {.cnt = 0};
     get_file_status(&all_project_file, get_root_addres(), MAX_DEP);
     for(int i = 0; i < all_project_file.cnt; i++){
-        if(find_index_in_file_list(&file_status, all_project_file.lst[i].addres) != -1){
+
+        if(find_index_in_file_list(&file_status, all_project_file.lst[i].addres) == -1){
             all_project_file.lst[i].state = NotFound;
             file_status.lst[file_status.cnt++] = all_project_file.lst[i];
         }
@@ -103,6 +133,7 @@ void push_stage(char* commit_id){
 
     clear_stage();
 }
+
 
 Commit create_commit(char *message){
     char *commit_id = create_random_commit_id();

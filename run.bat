@@ -1,23 +1,38 @@
 cd virtual_project
 
+@REM gitil add -f xdir\himil\branch\
+@REM gitil reset -undo
+@REM gitil add xdir\fl1\dard.txt
+@REM @REM @REM gitil add xdir\fl1\xrat.txt
+@REM gitil commit -m "remove"
+
+@REM gitil status -p
+
+@REM gitil add -f xdir/fl1
+
+@REM gitil reset -f xdir\fl1\dirrr\donbale_chi_daghighan.txt
+
+@REM gitil add -redo
 
 gitil delete
 gitil init
-gitil add main.txt
-gitil commit -m "please!"
-@REM @REM @REM @REM @REM gitil add main.txt
-@REM gitil add xdir
-@REM gitil add xdir/himil
-@REM gitil reset -undo
-@REM @REM @REM @REM gitil reset -undo
-@REM @REM gitil add tit.cpp
-@REM @REM @REM gitil add -redo
-@REM gitil add -n 2
-@REM @REM @REM @REM gitil reset -undo
-@REM @REM @REM @REM gitil add -redo
-gitil status -p
+gitil add xdir/fl1
+gitil commit -m "add xdir/fl1"
+gitil branch nw_branch
+gitil add xdir\fl1\xrat.txt
+gitil commit -m "add xdir/fl1"
+gitil commit -m "add xdir/fl1"
+gitil commit -m "add xdir/fl1"
+
 
 gitil test
 
-cd ..
 
+
+
+
+
+
+
+
+cd ..

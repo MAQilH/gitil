@@ -2,15 +2,18 @@
 #include <stdlib.h>
 #include <string.h> 
 #include "headers.h"
+#include <sys/stat.h>
+
 #include "glob.h"
 #include "lib/lib.h"
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
     // printf("asd\n");
-    print_config_file(get_global_config_addres());
+    print_file_list_file(get_current_stage_info_addres());
+    // print_file_list_file(get_current_mem_stage_info_addres());
+    // print_config_file(get_global_config_addres());
     // print_file_list_file(get_current_stage_info_addres());
-    printf("%d", file_cmp(get_local_config_addres(), get_local_config_addres()));
 }
 
 int check_continue(int argc, char *argv[]){
@@ -46,7 +49,6 @@ int main(int argc, char* argv_tmp[]){
         }
     } else if(!strcmp(act, "delete")){
         del(argc, argv);
-        print_warn("fuck you :)");
     } else if(!strcmp(act, "add")){
         add(argc, argv);
     } else if(!strcmp(act, "reset")){
@@ -55,6 +57,8 @@ int main(int argc, char* argv_tmp[]){
         status(argc, argv);
     } else if(!strcmp(act, "commit")){
         commit(argc, argv);
+    } else if(!strcmp(act, "branch")){
+        branch(argc, argv);
     }
     else {
         print_fail("fail: input is invalid!");

@@ -5,7 +5,7 @@
 #include "../model/file_list_model.h"
 
 int add_file_rel_addres_to_file_list(FileList *flst, char* addres){
-    File fl = {.state = get_file_state_with_commit(get_cuurent_HEAD_commit(), addres)};
+    File fl = {.state = get_file_state_with_commit(get_current_commit(), addres)};
     if(fl.state == NotFound) return 0;
     strcpy(fl.addres, addres);
     strcpy(fl.name, get_file_name(fl.addres));

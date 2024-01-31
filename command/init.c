@@ -18,6 +18,6 @@ int init(int argc, char *argv[]){
         return 0;
     }
     initialize();
-    print_success("welcome to the gitil world=)");
+    print_success("welcome to the gitil world =)");
     return 1;
 }
