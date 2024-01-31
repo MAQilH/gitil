@@ -58,6 +58,6 @@ void add(int argc, char *argv[]){
                 print_warn(msg);
             }
         }
-        add_to_stage(&flst);
     }
+    add_to_stage(&flst);
 }

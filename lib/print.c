@@ -23,3 +23,8 @@ void print_warn(char *s){
     printf(s);
     printf("\033[0m\n");
 }
+void print_error(char* s){
+    printf("\033[1;35m");
+    printf(s);
+    printf("\033[0m\n");
+}

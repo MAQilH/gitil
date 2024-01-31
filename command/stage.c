@@ -53,11 +53,13 @@ void add_to_stage(FileList *flst){
             );
             current_stage.lst[index] = blanck_file();
         }
+
         if(flst->lst[i].state != Delete){
             file_copy(flst->lst[i].addres, get_current_stage_changes_file_addres(get_name_file_in_stage_change(&flst->lst[i])));
         }
         current_stage.cnt++;
     }
+
     
     set_file_list(get_current_stage_info_addres(), &current_stage);
 

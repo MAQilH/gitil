@@ -19,3 +19,4 @@ void add_to_undo_file(FileList *flst);
 FileList get_file_list(char* addres);
 void set_file_list(char* addres, FileList* flst);
 int add_file_rel_addres_to_file_list(FileList *flst, char* addres);
+void get_file_status_with_commit(char* commit_id, FileList *flst, char* folder_addres, int dep);

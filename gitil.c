@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h> 
 #include "headers.h"
-#include <sys/stat.h>
+// #include <sys/stat.h>
 
 #include "glob.h"
 #include "lib/lib.h"
@@ -10,7 +10,7 @@
 
 void test_env(int argc, char *argv[]){
     // printf("asd\n");
-    print_file_list_file(get_current_stage_info_addres());
+    // print_file_list_file(get_commit_status_file_addres(get_current_commit()));
     // print_file_list_file(get_current_mem_stage_info_addres());
     // print_config_file(get_global_config_addres());
     // print_file_list_file(get_current_stage_info_addres());
@@ -59,11 +59,11 @@ int main(int argc, char* argv_tmp[]){
         commit(argc, argv);
     } else if(!strcmp(act, "branch")){
         branch(argc, argv);
-    }
-    else {
+    } else if(!strcmp(act, "checkout")){
+        checkout(argc, argv);
+    }else {
         print_fail("fail: input is invalid!");
     }
-
 
     return 0;
 }

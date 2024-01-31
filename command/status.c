@@ -30,12 +30,17 @@ void dfs_get_file(FileList *flst, int dep, char* commit_id){
 }
 
 void get_file_status(FileList *flst, char* folder_addres, int dep){
+    get_file_status_with_commit(get_current_commit(), flst, folder_addres, dep);
+    return;
+}
+
+void get_file_status_with_commit(char* commit_id, FileList *flst, char* folder_addres, int dep){
     char* saved = get_current_addres();
     if(chdir(folder_addres) == 0){
-        dfs_get_file(flst, dep, get_current_commit());
+        dfs_get_file(flst, dep, commit_id);
         chdir(saved);
     }
-    FileList cmt_status_file = get_commit_status_file(get_current_commit());
+    FileList cmt_status_file = get_commit_status_file(commit_id);
     for(int i = 0; i < cmt_status_file.cnt; i++){
         if(
             addres_distance(cmt_status_file.lst[i].addres, folder_addres) <= dep &&
@@ -57,14 +62,16 @@ void status(int argc, char *argv[]){ // if add -p addres show from root project
     } else{
         get_file_status(&flst, addres = get_current_addres(), 1);
     }
+    int n = 0;
     for(int i = 0; i < flst.cnt; i++){
         char st[MAX_NAME] = "+A  ";
         if(flst.lst[i].state == Modified) st[1] = 'M';
         else if(flst.lst[i].state == Delete) st[1] = 'D';
         else if(flst.lst[i].state == Create) st[1] = 'A';
         else if(flst.lst[i].state == Access) st[1] = 'T'; // TODO: check affter write commit
-        else if(flst.lst[i].state == Unchange) st[1] = 'U';
+        // else if(flst.lst[i].state == Unchange) st[1] = 'U';
         else continue;
+        n++;
         
         if(in_stage(flst.lst[i].addres)){
             st[0] = '+';
@@ -75,6 +82,9 @@ void status(int argc, char *argv[]){ // if add -p addres show from root project
             char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
             print_fail(msg);
         }
+    }
+    if(n == 0){
+        print_warn("there is no changes in project!\n");
     }
 }
 

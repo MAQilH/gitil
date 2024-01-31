@@ -2,6 +2,20 @@
 #include "../model/commit_model.h"
 #include "../model/file_list_model.h"
 #include "../model/branch_model.h"
+#include "branch.h"
+
+int check_exist_commit(char* commit_id){
+    FILE *commits_info_file = fopen(get_commits_info_addres(), "rb");
+    Commit cmt;
+    while(fread(&cmt, sizeof(cmt), 1, commits_info_file)){
+        if(!strcmp(cmt.commit_id, commit_id)){
+            fclose(commits_info_file);
+            return 1;
+        }
+    }
+    fclose(commits_info_file);
+    return 0;
+}
 
 char* get_prev_commit_id(char* commit_id){
     if(commit_id == NULL) return NULL;
@@ -80,8 +94,8 @@ void append_commit(Commit cmt){
 }
 
 void update_head_commit_id(char* commit_id){
-    int index;
-    Branch brn = get_branch_and_index(get_HEAD(), &index);
+    int index = get_branch_index(get_HEAD());
+    Branch brn = get_branch(get_HEAD());
     strcpy(brn.head_commit_id, commit_id);
 
     upate_middle_file(&brn, sizeof(brn), index, get_branch_info_addres());

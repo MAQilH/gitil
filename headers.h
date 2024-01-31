@@ -7,3 +7,4 @@
 #include "./command/reset.h"
 #include "./command/status.h"
 #include "./command/branch.h"
+#include "./command/checkout.h"

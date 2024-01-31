@@ -35,6 +35,10 @@
         "random": "c",
         "stage.h": "c",
         "status.h": "c",
-        "branch.h": "c"
+        "branch.h": "c",
+        "checkout.h": "c",
+        "chrono": "c",
+        "ranges": "c",
+        "variant": "c"
     }
 }

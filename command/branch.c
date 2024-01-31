@@ -45,21 +45,21 @@ void create_branch(char *branch_name){
     }
 }
 
-Branch get_branch_and_index(char* branch_name, int *index){
+int get_branch_index(char* branch_name){
     FILE *branch_info_file = fopen(get_branch_info_addres(), "rb");
     Branch brn;
-    *index = 0;
+    int index = 0;
     int have = 0;
     while(fread(&brn, sizeof(brn), 1, branch_info_file)){
         if(!strcmp(brn.name, branch_name)){
             have = 1;
             break;
         }
-        *index++;
+        index++;
     }
     fclose(branch_info_file);
-    if(!have) *index = -1;
-    return brn;
+    if(!have) index = -1;
+    return index;
 }
 
 Branch get_branch(char* branch_name){
@@ -74,14 +74,21 @@ Branch get_branch(char* branch_name){
     return brn;
 }
 
-int validate_branch(char* branch_name, char *res){
+int check_exist_branch(char* branch_name){
     FILE* file = fopen(get_branch_info_addres(), "rb");
     Branch brn;
     while(fread(&brn, sizeof(brn), 1, file)){
         if(!strcmp(brn.name, branch_name)){
-            strcpy(res, "fail: name is duplicated!");
-            return 0;
+            return 1;
         }
+    }
+    return 0;
+}
+
+int validate_branch(char* branch_name, char *res){
+    if(check_exist_branch(branch_name)){
+        strcpy(res, "fail: name is duplicated!");
+        return 0;
     }
 
     strcpy(res, "Branch ");

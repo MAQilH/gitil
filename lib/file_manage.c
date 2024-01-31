@@ -115,14 +115,25 @@ int remove_directory(char *path) {
     return r;
 }
 
-int file_copy(char FileSource[], char FileDestination[]){
+void create_path_folder(char* path){
+    StringList strl = get_string_list(path, "\\");
+    char *cur = strl.lst[0];
+    for(int i = 1; i < strl.cnt - 1; i++){
+        cur = cat_string(cur, cat_string("\\", strl.lst[i]));
+        if(!exist_folder(cur)){
+            create_folder(cur);
+        }
+    }
+}
+
+int file_copy(char* from, char* to){
+    create_path_folder(to);
     int c;
     FILE *stream_R;
     FILE *stream_W; 
-
-    stream_R = fopen (FileSource, "r");
+    stream_R = fopen (from, "r");
     if(stream_R == NULL) return -1;
-    stream_W = fopen (FileDestination, "w");
+    stream_W = fopen (to, "w");
     if(stream_W == NULL){
         fclose(stream_R);
         return -2;
@@ -131,7 +142,7 @@ int file_copy(char FileSource[], char FileDestination[]){
         fputc(c, stream_W);
     fclose(stream_R);
     fclose(stream_W);
-    chmod(FileDestination, get_premisson_file(FileSource));
+    chmod(to, get_premisson_file(from));
     return 0;
 }
 
@@ -148,7 +159,16 @@ int check_exist_in_folder(char *addres, char *folder_addres){
     return strncmp(addres, folder_addres, strlen(folder_addres)) == 0;
 }
 
+char* get_real_addres(char* cr_addres){
+    char* saved = get_current_addres();
+    chdir(cr_addres);
+    char* res = get_current_addres();
+    chdir(saved);
+    return res;
+}
+
 int addres_distance(char *addres_child, char *addres_parent){
+    addres_parent = get_real_addres(addres_parent);
     if(check_exist_in_folder(addres_child, addres_parent)){
         StringList stl1 = get_string_list(addres_parent, "\\");
         StringList stl2 = get_string_list(addres_child, "\\");
@@ -162,3 +182,8 @@ int get_premisson_file(char *file_addres){
     stat(file_addres, &file_state);
     return file_state.st_mode;
 }
+
+
+
+// master  
+// br1 

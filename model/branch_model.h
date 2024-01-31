@@ -8,7 +8,6 @@ typedef struct Branch{
     int date;
 } Branch;
 
-Branch get_branch_and_index(char* branch_name, int *index);
 Branch get_branch(char* branch_name);
 void print_branch(Branch brn);
 void print_branch_file(char* file_addres);
