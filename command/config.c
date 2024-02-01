@@ -80,5 +80,7 @@ void create_local_config(){
     create_config(get_current_addres());
     FILE *file = fopen(get_shortcut_commit_addres(), "wb");
     fclose(file);
+    file = fopen(get_tag_info_addres(), "wb");
+    fclose(file);
 }
 

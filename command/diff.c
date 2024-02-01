@@ -184,7 +184,7 @@ void show_commit_diff(int argc, char* argv[]){
         if(find_index_in_file_list(&commit_status2, commit_status1.lst[i].addres) != -1){
             if(file_cmp(exist_in_commit(commit1, commit_status1.lst[i].addres), exist_in_commit(commit2, commit_status1.lst[i].addres)))
                 continue;
-            print_warn(get_rel_addres(commit_status1.lst[i].addres));
+            print_warn(cat_string("<<<<<<<", cat_string(get_rel_addres(commit_status1.lst[i].addres), ">>>>>>>")));
             print_diff_file(
                 exist_in_commit(commit1, commit_status1.lst[i].addres), 1, INF,
                 exist_in_commit(commit2, commit_status1.lst[i].addres), 1, INF

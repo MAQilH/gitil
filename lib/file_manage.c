@@ -183,7 +183,8 @@ int get_premisson_file(char *file_addres){
     return file_state.st_mode;
 }
 
-
-
-// master  
-// br1 
+int get_file_len(char* file_addres, int size){
+    FILE *file = fopen(file_addres, "rb");
+    fseek(file, 0, SEEK_END);
+    return ftell(file)/size;
+}

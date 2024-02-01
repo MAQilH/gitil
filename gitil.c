@@ -12,7 +12,7 @@ void test_env(int argc, char *argv[]){
 
     // print_file_list(get_commit_status_file("spdcwtnaqwobxapuvlme"));
 
-    print_diff_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF, "C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF);
+    // print_diff_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF, "C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF);
     // print_alias_file(get_shortcut_commit_addres());
 
     // printf("%d", wildcard_checker(argv[2], argv[3]));
@@ -20,7 +20,7 @@ void test_env(int argc, char *argv[]){
     // printf("asd\n");
     // print_file_list_file(get_commit_status_file_addres(get_current_commit()));
     // print_file_list_file(get_current_mem_stage_info_addres());
-    // print_config_file(get_global_config_addres());
+    print_config_file(get_local_config_addres());
     // print_file_list_file(get_current_stage_info_addres());
 }
 
@@ -74,9 +74,11 @@ int main(int argc, char* argv_tmp[]){
         logg(argc, argv);
     } else if(!strcmp(act, "diff")){
         diff(argc, argv);
+    } else if(!strcmp(act, "tag")){
+        tag(argc, argv);
     }
     else {
-        print_fail("fail: input is invalid!");
+        print_input_invalid();
     }
 
     return 0;

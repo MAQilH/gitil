@@ -69,7 +69,7 @@ FileList get_commit_status_file(char *commit_id){
 
 char* create_random_commit_id(){
     srand(get_rand());
-    char *res = (char*)calloc(MAX_HASH, 1);
+    char *res = get_string(MAX_HASH);
     for(int i = 0; i < MAX_HASH; i++){
         res[i] = (char)('a' + rand()%26);
     }
@@ -216,6 +216,6 @@ int commit(int argc, char *argv[]){
         }
         return 1;
     }
-    print_fail("fail: invalid input!");
+    print_input_invalid();
     return 0;
 }

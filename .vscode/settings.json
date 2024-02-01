@@ -45,6 +45,8 @@
         "*.tcc": "c",
         "string": "c",
         "istream": "c",
-        "streambuf": "c"
+        "streambuf": "c",
+        "tag_model.h": "c",
+        "system_error": "c"
     }
 }

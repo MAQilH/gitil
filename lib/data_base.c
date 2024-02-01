@@ -5,6 +5,9 @@
 
 char* get_creator(){
     Config loc = get_config(get_local_config_addres()), glo = get_config(get_global_config_addres());
+    print_error(itos(strlen(loc.name)));
+    print_error(itos(strlen(glo.name)));
+
     if(strlen(loc.name) == 0){
         return get_string_ref(glo.name);
     }

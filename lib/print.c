@@ -28,3 +28,6 @@ void print_error(char* s){
     printf(s);
     printf("\033[0m\n");
 }
+void print_input_invalid(){
+    print_fail("fail: input is invalid!");
+}

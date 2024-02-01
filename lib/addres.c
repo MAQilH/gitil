@@ -158,3 +158,9 @@ char *get_commit_saved_file_addres(char* commit_addres, char* file_addres){
 char *get_shortcut_commit_addres(){
     return cat_string(get_gitil_addres(), "shortcut_commit.dat");
 }
+
+/* Tag */
+
+char *get_tag_info_addres(){
+    return cat_string(get_gitil_addres(), "tag_info.dat");
+}
