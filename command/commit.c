@@ -4,6 +4,8 @@
 #include "../model/branch_model.h"
 #include "branch.h"
 #include "commit_shortcut.h"
+#include "diff.h"
+#include "stage.h"
 
 int check_exist_commit(char* commit_id){
     FILE *commits_info_file = fopen(get_commits_info_addres(), "rb");
@@ -47,6 +49,8 @@ char* exist_in_commit(char *commit_id, char* file_addres){
         get_commit_status_file_addres(commit_id),
         file_addres
     );
+    // print_error(commit_id);
+    // print_file_list(get_commit_status_file(commit_id));
     // print_warn(get_commit_status_file_addres(commit_id));
     if(sts == Delete) return NULL;
     if(sts == NotFound){
@@ -56,18 +60,7 @@ char* exist_in_commit(char *commit_id, char* file_addres){
 }
 
 State get_file_state_with_commit(char *commit_id, char* file_addres){ // TODO: ino baiad bebarm to diff
-    char* addres_in_commit = exist_in_commit(commit_id, file_addres);
-    if(!exist_file(file_addres)){
-        if(addres_in_commit == NULL) return NotFound;
-        return Delete;
-    }
-    if(addres_in_commit == NULL) return Create;
-    if(file_cmp(addres_in_commit, file_addres)){
-        if(get_premisson_file(addres_in_commit) == get_premisson_file(file_addres))
-            return Unchange;
-        return Access;
-    }
-    return Modified;
+    return get_changed_state(exist_in_commit(commit_id, file_addres), file_addres);
 }
 
 FileList get_commit_status_file(char *commit_id){
@@ -129,7 +122,7 @@ void push_stage(char* commit_id){
     char* current_commit = get_current_commit();
     for(int i = 0; i < file_status.cnt; i++){
         file_copy(
-            get_current_stage_changes_file_addres(get_name_file_in_stage_change(&file_status.lst[i])),
+            get_current_stage_changes_file_addres(get_name_file_in_stage_change(file_status.lst[i].addres)),
             get_commit_saved_file_addres(commit_id, file_status.lst[i].addres)
         );
     }
@@ -193,13 +186,16 @@ int get_number_commited_file(char* commit_id){
     int cnt = 0;
     for(int i = 0; i < status_file.cnt; i++){
         if(status_file.lst[i].state == NotFound) break; 
-        cnt++;
+        if(status_file.lst[i].state != Unchange) cnt++;
     }
     return cnt;
 }
 
 int commit(int argc, char *argv[]){
-    if(argc != 4) return 0;
+    if(argc != 4){
+        print_fail("fail: invalid input!");
+        return 0;
+    }
     char* commit_msg = argv[2];
     if(!strcmp(argv[2], "-s")){
         commit_msg = get_commit_shortcut(argv[3]);
@@ -208,13 +204,18 @@ int commit(int argc, char *argv[]){
             return 0;
         }
     }
-    char* msg = get_string(MAX_MESSAGE);
-    if(validate_create_commit(argv[3], msg)){
-        Commit cmt = create_commit(argv[3]);
-        print_success(msg);
-        print_commit(cmt);
-    } else{
-        print_fail(msg);
+    if(!strcmp(argv[2], "-m")){
+        char* msg = get_string(MAX_MESSAGE);
+        if(validate_create_commit(argv[3], msg)){
+            Commit cmt = create_commit(argv[3]);
+            print_success(msg);
+            print_commit(cmt);
+        } else{
+            print_fail(msg);
+            return 0;
+        }
+        return 1;
     }
-    return 1;
+    print_fail("fail: invalid input!");
+    return 0;
 }

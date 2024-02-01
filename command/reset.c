@@ -5,7 +5,7 @@
 void remove_file_in_stage_change(File* fl){
     remove(
         get_current_stage_changes_file_addres(
-            get_name_file_in_stage_change(fl)
+            get_name_file_in_stage_change(fl->addres)
         )
     );
 }

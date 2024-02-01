@@ -10,3 +10,4 @@
 #include "./command/checkout.h"
 #include "./command/commit_shortcut.h"
 #include "./command/log.h"
+#include "./command/diff.h"

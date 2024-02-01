@@ -9,6 +9,10 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
+
+    // print_file_list(get_commit_status_file("spdcwtnaqwobxapuvlme"));
+
+    print_diff_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF, "C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF);
     // print_alias_file(get_shortcut_commit_addres());
 
     // printf("%d", wildcard_checker(argv[2], argv[3]));
@@ -68,6 +72,8 @@ int main(int argc, char* argv_tmp[]){
         shortcut(argc, argv);
     } else if(!strcmp(act, "log")){
         logg(argc, argv);
+    } else if(!strcmp(act, "diff")){
+        diff(argc, argv);
     }
     else {
         print_fail("fail: input is invalid!");

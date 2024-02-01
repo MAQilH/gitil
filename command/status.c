@@ -54,6 +54,11 @@ void get_file_status_with_commit(char* commit_id, FileList *flst, char* folder_a
     return;
 }
 
+int changed_file_stage_area(char* file_addres){
+    State st = get_changed_state(get_current_stage_changes_file_addres(get_name_file_in_stage_change(file_addres)), file_addres);
+    return st != NotFound && st != Unchange;
+}
+
 void status(int argc, char *argv[]){ // if add -p addres show from root project
     FileList flst = {.cnt = 0};
     char* addres;
@@ -68,12 +73,12 @@ void status(int argc, char *argv[]){ // if add -p addres show from root project
         if(flst.lst[i].state == Modified) st[1] = 'M';
         else if(flst.lst[i].state == Delete) st[1] = 'D';
         else if(flst.lst[i].state == Create) st[1] = 'A';
-        else if(flst.lst[i].state == Access) st[1] = 'T'; // TODO: check affter write commit
+        else if(flst.lst[i].state == Access) st[1] = 'T';
         // else if(flst.lst[i].state == Unchange) st[1] = 'U';
         else continue;
         n++;
         
-        if(in_stage(flst.lst[i].addres)){
+        if(!changed_file_stage_area(flst.lst[i].addres)){
             st[0] = '+';
             char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
             print_success(msg);

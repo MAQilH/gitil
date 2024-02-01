@@ -6,6 +6,7 @@
 #define MAX_EMAIL       (100)
 #define MAX_FILE_LIST   (300)
 #define MAX_ADDRES      (260)
+#define MAX_STR         (2000)
 #define PRIME           (9973)
 #define INF             (1<<30)
 #define MOD             (1000000007)

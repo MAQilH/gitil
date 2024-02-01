@@ -1,8 +1,8 @@
 #include "../lib/lib.h"
 #include "../model/file_list_model.h"
 
-char* get_name_file_in_stage_change(File* fl){
-    return replace_name_with_hash(fl->addres);
+char* get_name_file_in_stage_change(char* file_addres){
+    return replace_name_with_hash(file_addres);
 }
 
 int in_stage(char *file_addres){
@@ -55,7 +55,7 @@ void add_to_stage(FileList *flst){
         }
 
         if(flst->lst[i].state != Delete){
-            file_copy(flst->lst[i].addres, get_current_stage_changes_file_addres(get_name_file_in_stage_change(&flst->lst[i])));
+            file_copy(flst->lst[i].addres, get_current_stage_changes_file_addres(get_name_file_in_stage_change(flst->lst[i].addres)));
         }
         current_stage.cnt++;
     }

@@ -21,4 +21,4 @@ File blanck_file();
 int is_blanck(File* fl);
 void remove_file_in_stage_change(File* fl);
 char* get_state_string(State sts);
-char* get_name_file_in_stage_change(File* fl);
+State get_changed_state(char* from_addres, char* to_addres);

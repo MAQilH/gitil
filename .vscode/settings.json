@@ -41,6 +41,10 @@
         "ranges": "c",
         "variant": "c",
         "commit_shortcut.h": "c",
-        "log.h": "c"
+        "log.h": "c",
+        "*.tcc": "c",
+        "string": "c",
+        "istream": "c",
+        "streambuf": "c"
     }
 }
