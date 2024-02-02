@@ -80,7 +80,6 @@ int create_tag(int argc, char *argv[]){
         overwrite = 1;
     } 
     strcpy(tg.commit_id, commit_id);
-    print_error(tg.creator);
     strcpy(tg.message, msg);
     return add_tag(tg, overwrite);
 }

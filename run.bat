@@ -17,6 +17,6 @@ gitil commit -m "first commit"
 gitil branch br1
 gitil checkout br1
 
-@REM gitil diff -c gkoxbpujkxzecbpmajin spdcwtnaqwobxapuvlme
+gitil diff -c gkoxbpujkxzecbpmajin spdcwtnaqwobxapuvlme
 
 cd ..

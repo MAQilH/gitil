@@ -49,9 +49,6 @@ char* exist_in_commit(char *commit_id, char* file_addres){
         get_commit_status_file_addres(commit_id),
         file_addres
     );
-    // print_error(commit_id);
-    // print_file_list(get_commit_status_file(commit_id));
-    // print_warn(get_commit_status_file_addres(commit_id));
     if(sts == Delete) return NULL;
     if(sts == NotFound){
         return exist_in_commit(get_prev_commit_id(commit_id), file_addres);
@@ -192,11 +189,11 @@ int get_number_commited_file(char* commit_id){
 }
 
 int commit(int argc, char *argv[]){
-    if(argc != 4){
-        print_fail("fail: invalid input!");
+    if(argc < 4){
+        print_input_invalid();
         return 0;
     }
-    char* commit_msg = argv[2];
+    char* commit_msg = argv[3];
     if(!strcmp(argv[2], "-s")){
         commit_msg = get_commit_shortcut(argv[3]);
         if(commit_msg == NULL){
@@ -204,10 +201,10 @@ int commit(int argc, char *argv[]){
             return 0;
         }
     }
-    if(!strcmp(argv[2], "-m")){
+    if(!strcmp(argv[2], "-m") || !strcmp(argv[2], "-s")){
         char* msg = get_string(MAX_MESSAGE);
-        if(validate_create_commit(argv[3], msg)){
-            Commit cmt = create_commit(argv[3]);
+        if(validate_create_commit(commit_msg, msg)){
+            Commit cmt = create_commit(commit_msg);
             print_success(msg);
             print_commit(cmt);
         } else{

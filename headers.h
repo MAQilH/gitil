@@ -13,3 +13,4 @@
 #include "./command/diff.h"
 #include "./command/merge.h"
 #include "./command/tag.h"
+#include "./command/grep.h"

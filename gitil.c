@@ -76,6 +76,8 @@ int main(int argc, char* argv_tmp[]){
         diff(argc, argv);
     } else if(!strcmp(act, "tag")){
         tag(argc, argv);
+    } else if(!strcmp(act, "grep")){
+        grep(argc, argv);
     }
     else {
         print_input_invalid();

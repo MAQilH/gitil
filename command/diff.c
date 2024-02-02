@@ -44,13 +44,18 @@ void print_line(char* file_name, int line, char* s, void(*print)(char*), int prf
     }
 }
 
-void print_diff_string(char* file_name1, char* file_name2, int num1, int num2, char* s1, char* s2){
+int print_diff_string(char* file_name1, char* file_name2, int num1, int num2, char* s1, char* s2){
+    if(s1 != NULL){
+        int len1 = strlen(s1);
+        if(len1 && s1[len1-1] == '\n') s1[len1-1] = '\0';
+    }
+    if(s2 != NULL){
+        int len2 = strlen(s2);
+        if(len2 && s2[len2-1] == '\n') s2[len2-1] = '\0';
+    }
     if(s1 != NULL && s2 != NULL){
-        int len1 = strlen(s1), len2 = strlen(s2);
-        if(len1 && s1[len1-1] == '\n') s1[len1-1] = '\0', len1--;
-        if(len2 && s2[len2-1] == '\n') s2[len2-1] = '\0', len2--;
         if(!strcmp(s1, s2)){
-            return;
+            return 0;
         }
     }
     printf("<<<<<<<<<\n");
@@ -88,9 +93,11 @@ void print_diff_string(char* file_name1, char* file_name2, int num1, int num2, c
         }
     }
     printf(">>>>>>>>>\n");
+    return 1;
 }
 
-void print_diff_file(char* file_addres1, int bg1, int en1, char* file_addres2, int bg2, int en2){
+int print_diff_file(char* file_addres1, int bg1, int en1, char* file_addres2, int bg2, int en2){
+    int have_conflict = 0;
     if(en1 < 0) en1 = INF;
     if(en2 < 0) en2 = INF;
     en1++, en2++;
@@ -126,7 +133,7 @@ void print_diff_file(char* file_addres1, int bg1, int en1, char* file_addres2, i
             break;
         }
         if(lnum2 == INF + 10) break;
-        print_diff_string(get_file_name(file_addres1), get_file_name(file_addres2), lnum1, lnum2, s1, s2);
+        have_conflict |= print_diff_string(get_file_name(file_addres1), get_file_name(file_addres2), lnum1, lnum2, s1, s2);
         lnum1++, lnum2++;
     }
     int flg = 1;
@@ -140,7 +147,7 @@ void print_diff_file(char* file_addres1, int bg1, int en1, char* file_addres2, i
             lnum1++;
             continue;
         }
-        print_diff_string(get_file_name(file_addres1), NULL, lnum1, 0, s1, NULL);
+        have_conflict |= print_diff_string(get_file_name(file_addres1), NULL, lnum1, 0, s1, NULL);
         lnum1++;
     }
     while(lnum2 <= en2){
@@ -152,11 +159,12 @@ void print_diff_file(char* file_addres1, int bg1, int en1, char* file_addres2, i
             lnum2++;
             continue;
         }
-        print_diff_string(NULL, get_file_name(file_addres2), 0, lnum2, NULL, s2);
+        have_conflict |= print_diff_string(NULL, get_file_name(file_addres2), 0, lnum2, NULL, s2);
         lnum2++;
     }
     fclose(file1);
     fclose(file2);
+    return have_conflict;
 }
 
 void show_file_diff(int argc, char* argv[]){
@@ -181,7 +189,10 @@ void show_commit_diff(int argc, char* argv[]){
     FileList commit_status1 = get_commit_status_file(commit1);
     FileList commit_status2 = get_commit_status_file(commit2);
     for(int i = 0; i < commit_status1.cnt; i++){
-        if(find_index_in_file_list(&commit_status2, commit_status1.lst[i].addres) != -1){
+        State state_in_commit2 = find_in_file_list(&commit_status2, commit_status1.lst[i].addres);
+        int index = find_index_in_file_list(&commit_status2, commit_status1.lst[i].addres);
+        if(index == -1) state_in_commit2 = Delete;
+        if(commit_status1.lst[i].state != Delete && state_in_commit2 != Delete){
             if(file_cmp(exist_in_commit(commit1, commit_status1.lst[i].addres), exist_in_commit(commit2, commit_status1.lst[i].addres)))
                 continue;
             print_warn(cat_string("<<<<<<<", cat_string(get_rel_addres(commit_status1.lst[i].addres), ">>>>>>>")));
@@ -189,13 +200,16 @@ void show_commit_diff(int argc, char* argv[]){
                 exist_in_commit(commit1, commit_status1.lst[i].addres), 1, INF,
                 exist_in_commit(commit2, commit_status1.lst[i].addres), 1, INF
             );
-        } else{
+        } else if(commit_status1.lst[i].state != Delete){
             char *s = cat_string(get_rel_addres(commit_status1.lst[i].addres), cat_string(" Created in commit ", commit1));
+            print_error(s);
+        } else if(state_in_commit2 != NotFound){
+            char *s = cat_string(get_rel_addres(commit_status2.lst[i].addres), cat_string(" created in commit ", commit2));
             print_error(s);
         }
     }
     for(int i = 0; i < commit_status2.cnt; i++){
-        if(find_index_in_file_list(&commit_status1, commit_status2.lst[i].addres) == -1){
+        if(find_index_in_file_list(&commit_status1, commit_status2.lst[i].addres) == -1 && commit_status2.lst[i].state != Delete){
             char *s = cat_string(get_rel_addres(commit_status2.lst[i].addres), cat_string(" created in commit ", commit2));
             print_error(s);
         }

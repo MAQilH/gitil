@@ -18,9 +18,8 @@ void f(int* x){
 }
 
 int main(){
-    int* y = &b;
-    printf("%d", *y);
-    f(y);
-    printf("%d", *y);
+    char* a = (char*)calloc(2, 1);
+    strcat(a, "afsdfsdf");
+    printf("%s\n", a);
     return 0;
 }
