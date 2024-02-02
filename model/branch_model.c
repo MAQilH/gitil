@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 void print_branch(Branch brn){
+    if(brn.hidden) return;
     printf(
         "name: %s\n"
         "creator: %s\n"

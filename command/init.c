@@ -9,7 +9,7 @@ void initialize(){
     create_local_config();
     create_global_config();
     create_folder(get_main_branch_folder_addres());
-    create_branch("master");
+    create_branch("master", 0);
 }
 
 int init(int argc, char *argv[]){

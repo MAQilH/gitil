@@ -14,8 +14,8 @@ int validate_checkout(char* commit_id){
     return 1;
 }
 
-int checkout_commit(char* commit_id){
-    if(!validate_checkout(commit_id)) return 0;
+int checkout_commit(char* commit_id, int force){
+    if(!force && !validate_checkout(commit_id)) return 0;
     FileList flst = {.cnt = 0};
     get_file_status_with_commit(commit_id, &flst, get_root_addres(), MAX_DEP);
     for(int i = 0; i < flst.cnt; i++){
@@ -38,9 +38,9 @@ int checkout_commit(char* commit_id){
     return 1;
 }
 
-void checkout_branch(char* branch_name){
+void checkout_branch(char* branch_name, int force){
     char *head_commit = get_branch_head_commit(branch_name);
-    if(checkout_commit(head_commit)){
+    if(checkout_commit(head_commit, force)){
         set_HEAD_branch(branch_name);
     }
 }
@@ -53,7 +53,7 @@ void checkout_head_n(int n){
         if(prev_commit == NULL || !strcmp(prev_commit, current_branch.parent_commit_id)) break;
         commit_id = prev_commit;
     }
-    checkout_commit(commit_id);
+    checkout_commit(commit_id, 0);
 }
 
 int checkout(int argc, char* argv[]){
@@ -66,11 +66,11 @@ int checkout(int argc, char* argv[]){
         return 1;
     }
     if(check_exist_branch(argv[2])){
-        checkout_branch(argv[2]);
+        checkout_branch(argv[2], 0);
         return 1;
     } 
     if(check_exist_commit(argv[2])){
-        checkout_commit(argv[2]);
+        checkout_commit(argv[2], 0);
         return 1;
     }
     print_fail("not exist such commit/branch!");

@@ -40,3 +40,6 @@ char *get_commit_saved_file_addres(char* commit_addres, char* file_addres);
 
 /* Tag */
 char *get_tag_info_addres();
+
+/* Stash */
+char *get_stash_info_addres();

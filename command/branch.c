@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 
-void create_branch(char *branch_name){
+void create_branch(char *branch_name, int hidden){
     Branch brn;
     strcpy(brn.creator, get_creator());
     strcpy(brn.name, branch_name);
@@ -20,6 +20,7 @@ void create_branch(char *branch_name){
         strcpy(brn.head_commit_id, get_current_commit());
     }
     brn.date = time(NULL);
+    brn.hidden = hidden;
 
     create_folder(get_branch_folder_addres(branch_name));
     create_folder(get_commits_folder_addres(branch_name));
@@ -41,7 +42,7 @@ void create_branch(char *branch_name){
 
     // set_HEAD_branch(branch_name); 
     if(!strcmp(branch_name, "master")){
-        create_commit("gitil added!");
+        create_commit("gitil added!", 1);
     }
 }
 
@@ -111,7 +112,7 @@ void branch(int argc, char *argv[]){
     } else{
         char* msg = get_string(MAX_MESSAGE);
         if(validate_branch(argv[2], msg)){
-            create_branch(argv[2]);
+            create_branch(argv[2], 0);
             print_success(msg);
             return;
         }

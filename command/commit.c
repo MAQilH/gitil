@@ -124,7 +124,6 @@ void push_stage(char* commit_id){
         );
     }
 
-
     FileList all_project_file = {.cnt = 0};
     get_file_status(&all_project_file, get_root_addres(), MAX_DEP);
     for(int i = 0; i < all_project_file.cnt; i++){
@@ -139,8 +138,7 @@ void push_stage(char* commit_id){
     clear_stage();
 }
 
-
-Commit create_commit(char *message){
+Commit create_commit(char *message, int hidden){
     char *commit_id = create_random_commit_id();
     Commit cmt;
     strcpy(cmt.message, message);
@@ -148,6 +146,7 @@ Commit create_commit(char *message){
     strcpy(cmt.branch_name, get_HEAD());
     strcpy(cmt.commit_id, commit_id);
     cmt.date = time(NULL);
+    cmt.hidden = hidden;
 
     append_commit(cmt);
     create_commit_init_file(commit_id);
@@ -204,7 +203,7 @@ int commit(int argc, char *argv[]){
     if(!strcmp(argv[2], "-m") || !strcmp(argv[2], "-s")){
         char* msg = get_string(MAX_MESSAGE);
         if(validate_create_commit(commit_msg, msg)){
-            Commit cmt = create_commit(commit_msg);
+            Commit cmt = create_commit(commit_msg, 0);
             print_success(msg);
             print_commit(cmt);
         } else{

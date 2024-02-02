@@ -1,0 +1,1 @@
+int merge_branch(char* branch1, char* branch2);

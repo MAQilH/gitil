@@ -61,3 +61,9 @@ void add(int argc, char *argv[]){
     }
     add_to_stage(&flst);
 }
+
+void add_all_changes(){
+    FileList flst = {.cnt = 0};
+    get_file_status(&flst, get_root_addres(), MAX_DEP);
+    add_to_stage(&flst);
+}

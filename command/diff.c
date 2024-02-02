@@ -184,8 +184,7 @@ void show_file_diff(int argc, char* argv[]){
     print_diff_file(argv[3], bg1, en1, argv[4], bg2, en2);
 }
 
-void show_commit_diff(int argc, char* argv[]){
-    char* commit1 = argv[3], *commit2 = argv[4];
+void show_commit_diff(char* commit1, char* commit2){
     FileList commit_status1 = get_commit_status_file(commit1);
     FileList commit_status2 = get_commit_status_file(commit2);
     for(int i = 0; i < commit_status1.cnt; i++){
@@ -218,6 +217,6 @@ void show_commit_diff(int argc, char* argv[]){
 
 int diff(int argc, char* argv[]){
     if(!strcmp(argv[2], "-f")) show_file_diff(argc, argv);
-    else if(!strcmp(argv[2], "-c")) show_commit_diff(argc, argv);
+    else if(!strcmp(argv[2], "-c")) show_commit_diff(argv[3], argv[4]);
     return 1;
 }

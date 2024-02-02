@@ -82,5 +82,7 @@ void create_local_config(){ // TODO: set init random seed
     fclose(file);
     file = fopen(get_tag_info_addres(), "wb");
     fclose(file);
+    file = fopen(get_stash_info_addres(), "wb");
+    fclose(file);
 }
 

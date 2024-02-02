@@ -6,6 +6,7 @@ typedef struct Branch{
     char parent_commit_id[MAX_NAME];
     char head_commit_id[MAX_NAME];
     int date;
+    int hidden;
 } Branch;
 
 Branch get_branch(char* branch_name);

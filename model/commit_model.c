@@ -3,7 +3,19 @@
 #include "../lib/stril.h"
 #include <stdio.h>
 
+void print_stash(Commit sts){
+    printf(
+        "id: %s\n"
+        "message: %s\n"
+        "branch: %s\n"
+        "commit_creator: %s\n"
+        "number: %s\n\n",
+        sts.commit_id, sts.message, sts.branch_name, sts.creator, sts.date
+    );
+}
+
 void print_commit(Commit cmt){
+    if(cmt.hidden) return;
     printf(
         "id: %s\n"
         "message: %s\n"

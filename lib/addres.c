@@ -164,3 +164,9 @@ char *get_shortcut_commit_addres(){
 char *get_tag_info_addres(){
     return cat_string(get_gitil_addres(), "tag_info.dat");
 }
+
+/* Stach */
+
+char *get_stash_info_addres(){
+    return cat_string(get_gitil_addres(), "stash_info.dat");
+}
