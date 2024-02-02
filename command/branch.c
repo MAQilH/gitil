@@ -42,7 +42,7 @@ void create_branch(char *branch_name, int hidden){
 
     // set_HEAD_branch(branch_name); 
     if(!strcmp(branch_name, "master")){
-        create_commit("gitil added!", 1);
+        create_commit("gitil added!", 1, 0);
     }
 }
 

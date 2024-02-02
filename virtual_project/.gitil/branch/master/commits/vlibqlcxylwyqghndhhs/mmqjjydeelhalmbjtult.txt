@@ -1,7 +1,7 @@
 file -> nmd1.txt
 asdasdsaf
-
-d
+asdf
+dasffsafsdasdfg
 
 asdasd fd
 asdasd

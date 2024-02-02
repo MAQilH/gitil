@@ -78,14 +78,14 @@ void status(int argc, char *argv[]){ // if add -p addres show from root project
         else continue;
         n++;
         
-        if(!changed_file_stage_area(flst.lst[i].addres)){
-            st[0] = '+';
-            char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
-            print_success(msg);
-        } else{
+        if(!in_stage(flst.lst[i].addres) || changed_file_stage_area(flst.lst[i].addres)){
             st[0] = '-';
             char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
             print_fail(msg);
+        } else{
+            st[0] = '+';
+            char *msg = cat_string(st, get_rel_addres_from(flst.lst[i].addres, addres));
+            print_success(msg);
         }
     }
     if(n == 0){

@@ -4,6 +4,7 @@
 #include "status.h"
 #include "branch.h"
 #include "../model/branch_model.h"
+#include "revert.h"
 
 int validate_checkout(char* commit_id){
     if(check_diff_in_project()){
@@ -16,24 +17,7 @@ int validate_checkout(char* commit_id){
 
 int checkout_commit(char* commit_id, int force){
     if(!force && !validate_checkout(commit_id)) return 0;
-    FileList flst = {.cnt = 0};
-    get_file_status_with_commit(commit_id, &flst, get_root_addres(), MAX_DEP);
-    for(int i = 0; i < flst.cnt; i++){
-        if(flst.lst[i].state == Create){
-            remove(flst.lst[i].addres);
-        } else if(flst.lst[i].state != Unchange){
-            char *copy_addres = exist_in_commit(commit_id, flst.lst[i].addres);
-            if(copy_addres == NULL){
-                print_error("in checkout_commit copy addres not found!");
-                return 0;
-            }
-            file_copy(
-                exist_in_commit(commit_id, flst.lst[i].addres),
-                flst.lst[i].addres
-            );
-        }
-    }
-    // set_HEAD_branch(get_commit_branch(commit_id));
+    if(!revert_n(commit_id)) return 0;
     set_current_commit(commit_id);
     return 1;
 }
@@ -45,7 +29,7 @@ void checkout_branch(char* branch_name, int force){
     }
 }
 
-void checkout_head_n(int n){
+char* get_HEAD_x_commit_id(int n){
     char* commit_id = get_cuurent_HEAD_commit();
     Branch current_branch = get_branch(get_HEAD());
     while(n--){
@@ -53,7 +37,11 @@ void checkout_head_n(int n){
         if(prev_commit == NULL || !strcmp(prev_commit, current_branch.parent_commit_id)) break;
         commit_id = prev_commit;
     }
-    checkout_commit(commit_id, 0);
+    return commit_id;
+}
+
+void checkout_head_n(int n){
+    checkout_commit(get_HEAD_x_commit_id(n), 0);
 }
 
 int checkout(int argc, char* argv[]){

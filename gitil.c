@@ -9,19 +9,7 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
-
-    // print_file_list(get_commit_status_file("spdcwtnaqwobxapuvlme"));
-
-    // print_diff_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF, "C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\vlibqlcxylwyqghndhhs\\rhozjgtddorlwpmvkaoh.txt", 1, INF);
-    // print_alias_file(get_shortcut_commit_addres());
-
-    // printf("%d", wildcard_checker(argv[2], argv[3]));
-
-    // printf("asd\n");
-    // print_file_list_file(get_commit_status_file_addres(get_current_commit()));
-    // print_file_list_file(get_current_mem_stage_info_addres());
     print_config_file(get_local_config_addres());
-    // print_file_list_file(get_current_stage_info_addres());
 }
 
 int check_continue(int argc, char *argv[]){
@@ -78,6 +66,8 @@ int main(int argc, char* argv_tmp[]){
         tag(argc, argv);
     } else if(!strcmp(act, "grep")){
         grep(argc, argv);
+    } else if(!strcmp(act, "revert")){
+        revert(argc, argv);
     }
     else {
         print_input_invalid();

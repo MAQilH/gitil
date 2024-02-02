@@ -8,13 +8,14 @@ void trav_commit_file_reverse(char* file_addres, int n, void* prm, int(*checker)
     fseek(file, 0, SEEK_END);
     int ptr = ftell(file);
     Commit cmt;
-    while(ptr > 0 && n--){
+    while(ptr > 0 && n){
         ptr -= sizeof(cmt);
         fseek(file, ptr, SEEK_SET);
         fread(&cmt, sizeof(cmt), 1, file);
         if(checker(&cmt, prm)){
             print_commit(cmt);
         }
+        n -= !cmt.hidden;
     }
     fclose(file);
 }

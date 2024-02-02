@@ -7,10 +7,10 @@
 
 State get_changed_state(char* from_addres, char* to_addres){
     if(!exist_file(to_addres)){
-        if(from_addres == NULL) return NotFound;
+        if(!exist_file(from_addres)) return NotFound;
         return Delete;
     }
-    if(from_addres == NULL) return Create;
+    if(!exist_file(from_addres)) return Create;
     if(file_cmp(from_addres, to_addres)){
         if(get_premisson_file(from_addres) == get_premisson_file(to_addres))
             return Unchange;

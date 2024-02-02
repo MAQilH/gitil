@@ -4,7 +4,7 @@
 #define MAX_MESSAGE     (75)
 #define MAX_NAME        (100)
 #define MAX_EMAIL       (100)
-#define MAX_FILE_LIST   (300)
+#define MAX_FILE_LIST   (500)
 #define MAX_ADDRES      (260)
 #define MAX_STR         (2000)
 #define PRIME           (9973)

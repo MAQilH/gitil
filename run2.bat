@@ -1,10 +1,10 @@
 cd virtual_project
 
-gitil log
-gitil status -p
-gitil add .
+@REM gitil log
 @REM gitil status -p
-gitil commit -m "th commit"
+@REM gitil add .
+@REM @REM gitil status -p
+@REM gitil commit -m "th commit"
 @REM gitil test
 @REM gitil diff -c rgryjwybuidgygxylyju lrrpmdewanykmokpwjuy 
 @REM gitil commit -m "sec commit"
@@ -14,12 +14,14 @@ gitil commit -m "th commit"
 @REM gitil commit -m "nemidonam!"
 @REM gitil log
 
-gitil tag -a caadasf -m "aasdasasdf" -c "sdffsdfsdf" -f
-gitil tag
-gitil tag show basf
-gitil test
+gitil status -p
+@REM @REM @REM gitil add -n 10
+gitil add .
+gitil commit -m "cmt123"
+@REM gitil checkout 
 
-gitil grep -f "main.txt" -p sadfsdf -c vlibqlcxylwyqghndhhs -n
+@REM gitil revert -n wpmmsgxcqcgthxomwyeq
+gitil log
 
 cd ..
 

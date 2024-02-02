@@ -23,23 +23,23 @@ int check_exist_commit(char* commit_id){
 char* get_prev_commit_id(char* commit_id){
     if(commit_id == NULL) return NULL;
     char* branch_name = get_commit_branch(commit_id);
-    FILE *commits_info_file = fopen(get_commits_info_addres(), "rb");
+    FILE *commit_info_file = fopen(get_commit_info_addres(branch_name), "rb");
     Commit last_cmt;
-    fread(&last_cmt, sizeof(last_cmt), 1, commits_info_file);
+    fread(&last_cmt, sizeof(last_cmt), 1, commit_info_file);
     if(!strcmp(last_cmt.commit_id, commit_id)){
-        fclose(commits_info_file);
+        fclose(commit_info_file);
         if(!strcmp(branch_name, "master")) return NULL;
         Branch brn = get_branch(branch_name);
         return get_string_ref(brn.parent_commit_id);
     }
     Commit cmt;
-    while(fread(&cmt, sizeof(cmt), 1, commits_info_file)){
+    while(fread(&cmt, sizeof(cmt), 1, commit_info_file)){
         if(!strcmp(cmt.commit_id, commit_id)){
             break;
         }
         last_cmt = cmt;
     }
-    fclose(commits_info_file);
+    fclose(commit_info_file);
     return get_string_ref(last_cmt.commit_id);
 }
 
@@ -138,7 +138,7 @@ void push_stage(char* commit_id){
     clear_stage();
 }
 
-Commit create_commit(char *message, int hidden){
+Commit create_commit(char *message, int hidden, int is_merged){
     char *commit_id = create_random_commit_id();
     Commit cmt;
     strcpy(cmt.message, message);
@@ -147,6 +147,7 @@ Commit create_commit(char *message, int hidden){
     strcpy(cmt.commit_id, commit_id);
     cmt.date = time(NULL);
     cmt.hidden = hidden;
+    cmt.is_merged = is_merged;
 
     append_commit(cmt);
     create_commit_init_file(commit_id);
@@ -187,6 +188,15 @@ int get_number_commited_file(char* commit_id){
     return cnt;
 }
 
+Commit get_commit(char* commit_id){
+    FILE* commits_info = fopen(get_commits_info_addres(), "rb");
+    Commit cmt;
+    while(fread(&cmt, sizeof(cmt), 1, commits_info)){
+        if(!strcmp(cmt.commit_id, commit_id)) return cmt;
+    }
+    return cmt;
+}
+
 int commit(int argc, char *argv[]){
     if(argc < 4){
         print_input_invalid();
@@ -203,7 +213,7 @@ int commit(int argc, char *argv[]){
     if(!strcmp(argv[2], "-m") || !strcmp(argv[2], "-s")){
         char* msg = get_string(MAX_MESSAGE);
         if(validate_create_commit(commit_msg, msg)){
-            Commit cmt = create_commit(commit_msg, 0);
+            Commit cmt = create_commit(commit_msg, 0, 0);
             print_success(msg);
             print_commit(cmt);
         } else{

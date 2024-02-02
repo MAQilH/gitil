@@ -54,7 +54,7 @@ void clear_from_stage(FileList *flst){
             if(flst->lst[i].state != Delete){
                 remove_file_in_stage_change(&flst->lst[i]);
             }
-            stage_file.lst[index] = blanck_file();
+            stage_file.lst[i] = blanck_file();
         }
     }
     set_file_list(get_current_stage_info_addres(), &stage_file);

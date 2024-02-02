@@ -44,7 +44,7 @@ void stash_push(char *msg){
     create_branch(stash_name, 1);
     set_HEAD_branch(stash_name);
     add_all_changes();
-    Commit sts = create_commit(msg, 1);
+    Commit sts = create_commit(msg, 1, 0);
     strcpy(sts.creator, current_commit);
     add_to_stash_info(&sts);
 

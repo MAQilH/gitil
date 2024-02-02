@@ -43,6 +43,7 @@ int exist_folder(char* addres){
 }
 
 int exist_file(char* addres){
+    if(addres == NULL) return 0;
     return access(addres, F_OK) != -1;
 }
 

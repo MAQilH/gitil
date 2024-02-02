@@ -17,6 +17,7 @@ void add_n(int dep){
     FileList flst = {.cnt = 0};
     get_file_status(&flst, get_current_addres(), dep);
     for(int i = 0; i < flst.cnt; i++){
+        if(is_blanck(&flst.lst[i])) continue;
         if(in_stage(flst.lst[i].addres)){
             char *msg = strcat(get_rel_addres(flst.lst[i].addres), " in stage!");
             print_success(msg);
