@@ -14,9 +14,9 @@ gitil delete
 gitil init
 gitil add .
 gitil commit -m "first commit"
-gitil branch br1
-gitil branch br2 
-gitil branch br3
-gitil checkout br1
+@REM gitil branch br1
+@REM gitil branch br2 
+@REM gitil branch br3
+@REM gitil checkout br1
 
 cd ..

@@ -155,11 +155,13 @@ int check_exist_in_folder(char *addres, char *folder_addres){
 }
 
 char* get_real_addres(char* cr_addres){
-    char* saved = get_current_addres();
-    chdir(cr_addres);
-    char* res = get_current_addres();
-    chdir(saved);
-    return res;
+    // char* saved = get_current_addres();
+    // chdir(cr_addres);
+    // char* res = get_current_addres();
+    // chdir(saved);
+    int len = strlen(cr_addres);
+    if(cr_addres[len-1] == '.') cr_addres[len-1] = '\0';
+    return cr_addres;
 }
 
 int addres_distance(char *addres_child, char *addres_parent){

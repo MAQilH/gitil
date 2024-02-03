@@ -9,6 +9,7 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
+    print_file_list_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\spdcwtnaqwobxapuvlme\\file_status.dat");
     print_config_file(get_local_config_addres());
 }
 

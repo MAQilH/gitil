@@ -34,7 +34,7 @@ cd virtual_project
 
 @REM gitil add xxtr\rr\mit.txt
 gitil status -p
-gitil add xdir
+gitil add xxtr
 @REM gitil add -redo
 gitil status -p
 
