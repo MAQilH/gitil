@@ -20,15 +20,26 @@ cd virtual_project
 @REM gitil commit -m "cmt2"
 @REM gitil revert -m "this is a commit" HEAD-0
 @REM gitil log 
+@REM gitil reset -undo
+@REM gitil status -p
 @REM gitil add .
 @REM gitil commit -m "cmt 2"
-gitil checkout br1
-gitil log 
-gitil revert spdcwtnaqwobxapuvlme
+@REM gitil checkout br1
+@REM gitil log 
+@REM gitil revert spdcwtnaqwobxapuvlme
 @REM gitil checkout 
 
 @REM gitil revert -n wpmmsgxcqcgthxomwyeq
 @REM gitil log
+
+@REM gitil add xxtr\rr\mit.txt
+gitil status -p
+gitil add xdir
+@REM gitil add -redo
+gitil status -p
+
+gitil commit -m "2 commit"
+gitil status -p
 
 cd ..
 

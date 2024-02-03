@@ -12,52 +12,56 @@ void remove_file_in_stage_change(File* fl){
 
 void add_to_undo_file(FileList *flst){
     FILE* unstage_file = fopen(get_current_unstage_info_addres(), "ab");
-    fwrite(flst, sizeof(*flst), 1, unstage_file);
+    File balnck = blanck_file();
+    fwrite(&balnck, sizeof(File), 1, unstage_file);
+    fwrite(flst->lst, sizeof(File), flst->cnt, unstage_file);
     fclose(unstage_file);
 }
 
-
 int undo_from_stage(){
+    int len = get_file_len(get_current_unstage_info_addres(), sizeof(File));
     FILE* unstage_info_file = fopen(get_current_unstage_info_addres(), "rb");
-    FileList last_added_stage;
-    fseek(unstage_info_file, 0, SEEK_END);
-    if(ftell(unstage_info_file) == 0){
+    int ptr = len*sizeof(File);
+    if(len == 0){
         fclose(unstage_info_file);
         return 0;
     }
-    int size = sizeof(last_added_stage);
-    fseek(unstage_info_file, -size, SEEK_END);
-    if(fread(&last_added_stage, sizeof(last_added_stage), 1, unstage_info_file)){
-        fclose(unstage_info_file);
-        for(int i = 0; i < last_added_stage.cnt; i++){
-            if(last_added_stage.lst[i].state != Delete){
-                remove_file_in_stage_change(&last_added_stage.lst[i]);
-            }
+    int cnt = 0;
+    File added_file;
+    while(ptr){
+        cnt++;
+        ptr -= sizeof(added_file);
+        fseek(unstage_info_file, ptr, SEEK_SET);
+        fread(&added_file, sizeof(File), 1, unstage_info_file);
+        if(is_blanck(&added_file)) break;
+        if(added_file.state != Delete){
+            remove_file_in_stage_change(&added_file);
         }
-        pop_from_file(sizeof(last_added_stage), get_current_unstage_info_addres());
-
-        FileList current_stage = get_file_list(get_current_stage_info_addres());
-        current_stage.cnt -= last_added_stage.cnt;
-        set_file_list(get_current_stage_info_addres(), &current_stage);
-
-        return 1;
     }
     fclose(unstage_info_file);
+    
+    FileList *unstage_file_ist = get_file_list(get_current_unstage_info_addres());
+    unstage_file_ist->cnt -= cnt;
+    set_file_list(get_current_unstage_info_addres(), unstage_file_ist);
+
+    FileList *current_stage = get_file_list(get_current_stage_info_addres());
+    current_stage->cnt -= cnt-1;
+    set_file_list(get_current_stage_info_addres(), current_stage);
     return 0;
 }
 
 void clear_from_stage(FileList *flst){
-    FileList stage_file = get_file_list(get_current_stage_info_addres());
+    FileList *stage_file = get_file_list(get_current_stage_info_addres());
     for(int i = 0; i < flst->cnt; i++){
-        int index = find_index_in_file_list(&stage_file, flst->lst[i].addres);
+        int index = find_index_in_file_list(stage_file, flst->lst[i].addres);
         if(index != -1){
             if(flst->lst[i].state != Delete){
                 remove_file_in_stage_change(&flst->lst[i]);
             }
-            stage_file.lst[i] = blanck_file();
+            stage_file->lst[i] = blanck_file();
         }
     }
-    set_file_list(get_current_stage_info_addres(), &stage_file);
+    set_file_list(get_current_stage_info_addres(), stage_file);
 }
 
 void reset(int argc, char* argv[]){
@@ -67,15 +71,15 @@ void reset(int argc, char* argv[]){
     }
     int ptr = 2;
     if(!strcmp(argv[ptr], "-f")) ptr++;
-    FileList flst = {.cnt = 0};
+    FileList *flst = create_file_list(0);
     for(; ptr < argc; ptr++){
         char* addres = get_current_addres();
         addres = cat_string(addres, argv[ptr]);
         if(is_directory(addres)){
-            get_file_status(&flst, addres, MAX_DEP);
+            get_file_status(flst, addres, MAX_DEP);
         } else{
-            add_file_rel_addres_to_file_list(&flst, addres);
+            add_file_rel_addres_to_file_list(flst, addres);
         }
     }
-    clear_from_stage(&flst);
+    clear_from_stage(flst);
 }

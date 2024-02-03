@@ -33,9 +33,11 @@ void create_branch(char *branch_name, int hidden){
     file = fopen(get_commit_info_addres(branch_name), "wb");
     fclose(file);
 
-    FileList flst = {.cnt = 0};
-    set_file_list(get_mem_stage_info_addres(branch_name), &flst);
-    set_file_list(get_stage_info_addres(branch_name), &flst);
+    FileList *flst = create_file_list(0);
+    set_file_list(get_mem_stage_info_addres(branch_name), flst);
+    set_file_list(get_stage_info_addres(branch_name), flst);
+
+
 
     file = fopen(get_unstage_info_addres(branch_name), "wb");
     fclose(file);

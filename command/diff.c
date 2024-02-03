@@ -184,32 +184,32 @@ void show_file_diff(int argc, char* argv[]){
     print_diff_file(argv[3], bg1, en1, argv[4], bg2, en2);
 }
 
-void show_commit_diff(char* commit1, char* commit2){
-    FileList commit_status1 = get_commit_status_file(commit1);
-    FileList commit_status2 = get_commit_status_file(commit2);
-    for(int i = 0; i < commit_status1.cnt; i++){
-        State state_in_commit2 = find_in_file_list(&commit_status2, commit_status1.lst[i].addres);
-        int index = find_index_in_file_list(&commit_status2, commit_status1.lst[i].addres);
+void show_commit_diff(char* commit1, char* commit2){ // BUG
+    FileList *commit_status1 = get_commit_status_file(commit1);
+    FileList *commit_status2 = get_commit_status_file(commit2);
+    for(int i = 0; i < commit_status1->cnt; i++){
+        State state_in_commit2 = find_in_file_list(commit_status2, commit_status1->lst[i].addres);
+        int index = find_index_in_file_list(commit_status2, commit_status1->lst[i].addres);
         if(index == -1) state_in_commit2 = Delete;
-        if(commit_status1.lst[i].state != Delete && state_in_commit2 != Delete){
-            if(file_cmp(exist_in_commit(commit1, commit_status1.lst[i].addres), exist_in_commit(commit2, commit_status1.lst[i].addres)))
+        if(commit_status1->lst[i].state != Delete && state_in_commit2 != Delete){
+            if(file_cmp(exist_in_commit(commit1, commit_status1->lst[i].addres), exist_in_commit(commit2, commit_status1->lst[i].addres)))
                 continue;
-            print_warn(cat_string("<<<<<<<", cat_string(get_rel_addres(commit_status1.lst[i].addres), ">>>>>>>")));
+            print_warn(cat_string("<<<<<<<", cat_string(get_rel_addres(commit_status1->lst[i].addres), ">>>>>>>")));
             print_diff_file(
-                exist_in_commit(commit1, commit_status1.lst[i].addres), 1, INF,
-                exist_in_commit(commit2, commit_status1.lst[i].addres), 1, INF
+                exist_in_commit(commit1, commit_status1->lst[i].addres), 1, INF,
+                exist_in_commit(commit2, commit_status1->lst[i].addres), 1, INF
             );
-        } else if(commit_status1.lst[i].state != Delete){
-            char *s = cat_string(get_rel_addres(commit_status1.lst[i].addres), cat_string(" Created in commit ", commit1));
+        } else if(commit_status1->lst[i].state != Delete){
+            char *s = cat_string(get_rel_addres(commit_status1->lst[i].addres), cat_string(" Created in commit ", commit1));
             print_error(s);
         } else if(state_in_commit2 != NotFound){
-            char *s = cat_string(get_rel_addres(commit_status2.lst[i].addres), cat_string(" created in commit ", commit2));
+            char *s = cat_string(get_rel_addres(commit_status2->lst[i].addres), cat_string(" created in commit ", commit2));
             print_error(s);
         }
     }
-    for(int i = 0; i < commit_status2.cnt; i++){
-        if(find_index_in_file_list(&commit_status1, commit_status2.lst[i].addres) == -1 && commit_status2.lst[i].state != Delete){
-            char *s = cat_string(get_rel_addres(commit_status2.lst[i].addres), cat_string(" created in commit ", commit2));
+    for(int i = 0; i < commit_status2->cnt; i++){
+        if(find_index_in_file_list(commit_status1, commit_status2->lst[i].addres) == -1 && commit_status2->lst[i].state != Delete){
+            char *s = cat_string(get_rel_addres(commit_status2->lst[i].addres), cat_string(" created in commit ", commit2));
             print_error(s);
         }
     }

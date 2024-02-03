@@ -8,20 +8,20 @@
 #include "../model/commit_model.h"
 
 int revert_n(char* commit_id){
-    FileList flst = {.cnt = 0};
-    get_file_status_with_commit(commit_id, &flst, get_root_addres(), MAX_DEP);
-    for(int i = 0; i < flst.cnt; i++){
-        if(flst.lst[i].state == Create){
-            remove(flst.lst[i].addres);
-        } else if(flst.lst[i].state != Unchange){
-            char *copy_addres = exist_in_commit(commit_id, flst.lst[i].addres);
+    FileList *flst = create_file_list(0);
+    get_file_status_with_commit(commit_id, flst, get_root_addres(), MAX_DEP);
+    for(int i = 0; i < flst->cnt; i++){
+        if(flst->lst[i].state == Create){
+            remove(flst->lst[i].addres);
+        } else if(flst->lst[i].state != Unchange){
+            char *copy_addres = exist_in_commit(commit_id, flst->lst[i].addres);
             if(copy_addres == NULL){
                 print_error("in checkout_commit copy addres not found!");
                 return 0;
             }
             file_copy(
-                exist_in_commit(commit_id, flst.lst[i].addres),
-                flst.lst[i].addres
+                exist_in_commit(commit_id, flst->lst[i].addres),
+                flst->lst[i].addres
             );
         }
     }

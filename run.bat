@@ -18,4 +18,5 @@ gitil branch br1
 gitil branch br2 
 gitil branch br3
 gitil checkout br1
+
 cd ..

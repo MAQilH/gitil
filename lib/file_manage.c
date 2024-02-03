@@ -67,12 +67,6 @@ int file_cmp(char* file_addres1, char* file_addres2){
     }
 }
 
-void merge_file_list(FileList *dest, FileList src){
-    for(int i = 0; i < src.cnt; i++){
-        dest->lst[dest->cnt++] = src.lst[i];
-    }
-}
-
 void upate_middle_file(void* data, int size, int index, char* file_addres){
     FILE* file = fopen(file_addres, "rb+");
     fseek(file, index*size, SEEK_SET);

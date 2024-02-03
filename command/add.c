@@ -10,19 +10,20 @@ int add_file_rel_addres_to_file_list(FileList *flst, char* addres){
     strcpy(fl.addres, addres);
     strcpy(fl.name, get_file_name(fl.addres));
     flst->lst[flst->cnt++] = fl;
+    file_list_push_back(flst, &fl);
     return 1;
 }
 
 void add_n(int dep){
-    FileList flst = {.cnt = 0};
-    get_file_status(&flst, get_current_addres(), dep);
-    for(int i = 0; i < flst.cnt; i++){
-        if(is_blanck(&flst.lst[i])) continue;
-        if(in_stage(flst.lst[i].addres)){
-            char *msg = strcat(get_rel_addres(flst.lst[i].addres), " in stage!");
+    FileList *flst = create_file_list(0);
+    get_file_status(flst, get_current_addres(), dep);
+    for(int i = 0; i < flst->cnt; i++){
+        if(is_blanck(&flst->lst[i])) continue;
+        if(in_stage(flst->lst[i].addres)){
+            char *msg = strcat(get_rel_addres(flst->lst[i].addres), " in stage!");
             print_success(msg);
         } else{
-            char *msg = strcat(get_rel_addres(flst.lst[i].addres), " not in stage!");
+            char *msg = strcat(get_rel_addres(flst->lst[i].addres), " not in stage!");
             print_warn(msg);
         }
     }
@@ -41,16 +42,16 @@ void add(int argc, char *argv[]){
     if(!strcmp(argv[ptr], "-f")){
         ptr++;
     }
-    FileList flst = {.cnt = 0};
+    FileList *flst = create_file_list(0);
     for(; ptr < argc; ptr++){
         char* msg = cat_string(argv[ptr], " has been successfully added to the stage!");
         char* addres = get_current_addres();
         addres = cat_string(addres, argv[ptr]);
         if(is_directory(addres)){
-            get_file_status(&flst, addres, MAX_DEP);
+            get_file_status(flst, addres, MAX_DEP);
             print_success(msg);
         } else if(is_file(addres)){            
-            if(add_file_rel_addres_to_file_list(&flst, addres)){
+            if(add_file_rel_addres_to_file_list(flst, addres)){
                 print_success(msg);
             } else{
                 char *msg = "warn: no file/folder ";
@@ -60,11 +61,11 @@ void add(int argc, char *argv[]){
             }
         }
     }
-    add_to_stage(&flst);
+    add_to_stage(flst);
 }
 
 void add_all_changes(){
-    FileList flst = {.cnt = 0};
-    get_file_status(&flst, get_root_addres(), MAX_DEP);
-    add_to_stage(&flst);
+    FileList *flst = create_file_list(0);
+    get_file_status(flst, get_root_addres(), MAX_DEP);
+    add_to_stage(flst);
 }

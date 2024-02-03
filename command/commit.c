@@ -60,7 +60,7 @@ State get_file_state_with_commit(char *commit_id, char* file_addres){ // TODO: i
     return get_changed_state(exist_in_commit(commit_id, file_addres), file_addres);
 }
 
-FileList get_commit_status_file(char *commit_id){
+FileList *get_commit_status_file(char *commit_id){
     return get_file_list(get_commit_status_file_addres(commit_id)); 
 }
 
@@ -95,46 +95,43 @@ void update_head_commit_id(char* commit_id){
 
 void create_commit_init_file(char* commit_id){
     create_folder(get_commit_folder_addres(commit_id));
-    FileList flst = {.cnt = 0};
-    set_file_list(get_commit_status_file_addres(commit_id), &flst);
+    FileList *flst = create_file_list(0);
+    set_file_list(get_commit_status_file_addres(commit_id), flst);
 }
 
 void clear_stage(){
-    FileList stage_file = get_file_list(get_current_stage_info_addres());
-    stage_file = get_clean_file_list(&stage_file);
-    for(int i = 0; i < stage_file.cnt; i++){
-        remove_file_in_stage_change(&stage_file.lst[i]);
+    FileList *stage_file = get_file_list(get_current_stage_info_addres());
+    stage_file = get_clean_file_list(stage_file);
+    for(int i = 0; i < stage_file->cnt; i++){
+        remove_file_in_stage_change(&stage_file->lst[i]);
     }
-    FileList flst = {.cnt = 0};
-    set_file_list(get_current_mem_stage_info_addres(), &flst);
-    set_file_list(get_current_stage_info_addres(), &flst);
+    FileList *flst = create_file_list(0);
+    set_file_list(get_current_mem_stage_info_addres(), flst);
+    set_file_list(get_current_stage_info_addres(), flst);
     FILE *unstage_file = fopen(get_current_unstage_info_addres(), "wb");
     fclose(unstage_file);
 }
 
-void push_stage(char* commit_id){
-    FileList stage_file = get_file_list(get_current_stage_info_addres());
-    FileList file_status = get_clean_file_list(&stage_file);
+void push_stage(char* commit_id){ // BUG
+    FileList *stage_file = get_file_list(get_current_stage_info_addres());
+    FileList *file_status = get_clean_file_list(stage_file);
 
     char* current_commit = get_current_commit();
-    for(int i = 0; i < file_status.cnt; i++){
+    for(int i = 0; i < file_status->cnt; i++){
         file_copy(
-            get_current_stage_changes_file_addres(get_name_file_in_stage_change(file_status.lst[i].addres)),
-            get_commit_saved_file_addres(commit_id, file_status.lst[i].addres)
+            get_current_stage_changes_file_addres(get_name_file_in_stage_change(file_status->lst[i].addres)),
+            get_commit_saved_file_addres(commit_id, file_status->lst[i].addres)
         );
     }
-
-    FileList all_project_file = {.cnt = 0};
-    get_file_status(&all_project_file, get_root_addres(), MAX_DEP);
-    for(int i = 0; i < all_project_file.cnt; i++){
-
-        if(find_index_in_file_list(&file_status, all_project_file.lst[i].addres) == -1){
-            all_project_file.lst[i].state = NotFound;
-            file_status.lst[file_status.cnt++] = all_project_file.lst[i];
+    FileList *all_project_file = create_file_list(0);
+    get_file_status(all_project_file, get_root_addres(), MAX_DEP);
+    for(int i = 0; i < all_project_file->cnt; i++){
+        if(find_index_in_file_list(file_status, all_project_file->lst[i].addres) == -1){
+            all_project_file->lst[i].state = NotFound;
+            file_list_push_back(file_status, &all_project_file->lst[i]);
         }
     }
-    set_file_list(get_commit_status_file_addres(commit_id), &file_status);
-
+    set_file_list(get_commit_status_file_addres(commit_id), file_status);
     clear_stage();
 }
 
@@ -149,18 +146,22 @@ Commit create_commit(char *message, int hidden, int is_merged){
     cmt.hidden = hidden;
     cmt.is_merged = is_merged;
 
+    print_error("append commit!");
     append_commit(cmt);
+    print_error("create init file!");
     create_commit_init_file(commit_id);
+    print_error("push stage!");
     push_stage(commit_id);
+    print_error("update head!");
     update_head_commit_id(commit_id);
 
     return cmt;
 }
 
 int validate_create_commit(char* message, char* res){
-    FileList stage_list = get_file_list(get_current_stage_info_addres());
-    stage_list = get_clean_file_list(&stage_list);
-    if(stage_list.cnt == 0){
+    FileList *stage_list = get_file_list(get_current_stage_info_addres());
+    stage_list = get_clean_file_list(stage_list);
+    if(stage_list->cnt == 0){
         strcpy(res, "stage area is empty!");
         return 0;
     }
@@ -179,11 +180,11 @@ int validate_create_commit(char* message, char* res){
 }
 
 int get_number_commited_file(char* commit_id){
-    FileList status_file = get_commit_status_file(commit_id);
+    FileList *status_file = get_commit_status_file(commit_id);
     int cnt = 0;
-    for(int i = 0; i < status_file.cnt; i++){
-        if(status_file.lst[i].state == NotFound) break; 
-        if(status_file.lst[i].state != Unchange) cnt++;
+    for(int i = 0; i < status_file->cnt; i++){
+        if(status_file->lst[i].state == NotFound) break; 
+        if(status_file->lst[i].state != Unchange) cnt++;
     }
     return cnt;
 }
