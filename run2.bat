@@ -14,14 +14,21 @@ cd virtual_project
 @REM gitil commit -m "nemidonam!"
 @REM gitil log
 
-gitil status -p
-@REM @REM @REM gitil add -n 10
-gitil add .
-gitil commit -m "cmt123"
+@REM gitil status -p
+@REM @REM @REM @REM gitil add -n 10
+@REM gitil add .
+@REM gitil commit -m "cmt2"
+@REM gitil revert -m "this is a commit" HEAD-0
+@REM gitil log 
+@REM gitil add .
+@REM gitil commit -m "cmt 2"
+gitil checkout br1
+gitil log 
+gitil revert spdcwtnaqwobxapuvlme
 @REM gitil checkout 
 
 @REM gitil revert -n wpmmsgxcqcgthxomwyeq
-gitil log
+@REM gitil log
 
 cd ..
 

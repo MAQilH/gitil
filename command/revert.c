@@ -28,6 +28,15 @@ int revert_n(char* commit_id){
     return 1;
 }
 
+int revert_n_commit_id(char* commit_id){
+    Commit cmt = get_commit(commit_id);
+    if(cmt.is_merged){
+        print_fail("fail: this commite created by merge!");
+        return 0;
+    }
+    return revert_n(get_prev_commit_id(commit_id));
+}
+
 int revert_commit_id(char* commit_id, char* msg){
     Commit cmt = get_commit(commit_id);
     if(msg == NULL){
@@ -36,8 +45,9 @@ int revert_commit_id(char* commit_id, char* msg){
     }
     if(cmt.is_merged){
         print_fail("fail: this commite created by merge!");
+        return 0;
     }
-    if(!revert_n(commit_id)) return 0;
+    if(!revert_n(get_prev_commit_id(commit_id))) return 0;
     add_all_changes();
     create_commit(msg, 0, 0);
 }
@@ -59,12 +69,16 @@ int revert(int argc, char *argv[]){
         print_fail("project have changes in files that not been committed, you can seen them with \"gitil status -p\"!");
         return 0;
     }
+    if(strcmp(get_current_commit(), get_cuurent_HEAD_commit())){
+        print_fail("fail: you most be in the HEAD of project!");
+        return 0;
+    }
     if(!strcmp(argv[2], "-n")){
         char *commit_id = get_last_commit_id();
         if(argc > 3){
             commit_id = argv[3];
         }
-        revert_n(commit_id);
+        revert_n_commit_id(commit_id);
         return 1;   
     }
     char *msg = NULL;

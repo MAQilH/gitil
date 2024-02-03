@@ -15,9 +15,7 @@ gitil init
 gitil add .
 gitil commit -m "first commit"
 gitil branch br1
+gitil branch br2 
+gitil branch br3
 gitil checkout br1
-gitil log
-
-gitil diff -c gkoxbpujkxzecbpmajin spdcwtnaqwobxapuvlme
-
 cd ..
