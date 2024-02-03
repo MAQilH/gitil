@@ -40,7 +40,7 @@ FileList* create_file_list(int num){
 }
 
 void print_file_list(FileList *flst){ /* delete blanck file */
-    // flst = get_clean_file_list(flst);
+    flst = get_clean_file_list(flst);
     printf("count: %d\n", flst->cnt);
     for(int i = 0; i < flst->cnt; i++){
         print_file(flst->lst[i]);

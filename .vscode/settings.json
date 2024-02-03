@@ -47,6 +47,8 @@
         "istream": "c",
         "streambuf": "c",
         "tag_model.h": "c",
-        "system_error": "c"
+        "system_error": "c",
+        "diff.h": "c",
+        "merge.h": "c"
     }
 }

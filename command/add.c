@@ -9,7 +9,6 @@ int add_file_rel_addres_to_file_list(FileList *flst, char* addres){
     if(fl.state == NotFound) return 0;
     strcpy(fl.addres, addres);
     strcpy(fl.name, get_file_name(fl.addres));
-    flst->lst[flst->cnt++] = fl;
     file_list_push_back(flst, &fl);
     return 1;
 }
@@ -61,6 +60,7 @@ void add(int argc, char *argv[]){
             }
         }
     }
+    print_file_list(flst);
     add_to_stage(flst);
 }
 

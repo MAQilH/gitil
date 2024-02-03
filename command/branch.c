@@ -37,8 +37,6 @@ void create_branch(char *branch_name, int hidden){
     set_file_list(get_mem_stage_info_addres(branch_name), flst);
     set_file_list(get_stage_info_addres(branch_name), flst);
 
-
-
     file = fopen(get_unstage_info_addres(branch_name), "wb");
     fclose(file);
 

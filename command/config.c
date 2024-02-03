@@ -61,6 +61,7 @@ int create_config(char* addres){
     FILE* file = fopen(config_addres, "wb");
     Config conf;
     strcpy(conf.head, "master");
+    strcpy(conf.current_commit, "master");
     conf.name[0] = conf.email[0] = 0;
     conf.date = time(NULL);
     fwrite(&conf, sizeof(conf), 1, file);

@@ -65,7 +65,7 @@ void status(int argc, char *argv[]){ // if add -p addres show from root project
     if(argc > 2 && !strcmp(argv[2], "-p")){
         get_file_status(flst, addres = get_root_addres(), MAX_DEP);
     } else{
-        get_file_status(flst, addres = get_current_addres(), 1);
+        get_file_status(flst, addres = get_current_addres(), MAX_DEP);
     }
     int n = 0;
     for(int i = 0; i < flst->cnt; i++){

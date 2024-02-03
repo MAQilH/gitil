@@ -148,10 +148,10 @@ char *get_commit_status_file_addres(char* commit_id){
     return cat_string(get_commit_folder_addres(commit_id), "file_status.dat");
 }
 
-char *get_commit_saved_file_addres(char* commit_addres, char* file_addres){
+char *get_commit_saved_file_addres(char* commit_addres, char* file_name){
     return cat_string(
         get_commit_folder_addres(commit_addres),
-        replace_name_with_hash(file_addres)
+        replace_name_with_hash(file_name)
     );
 }
 

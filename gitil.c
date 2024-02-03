@@ -2,14 +2,13 @@
 #include <stdlib.h>
 #include <string.h> 
 #include "headers.h"
-// #include <sys/stat.h>
-
 #include "glob.h"
 #include "lib/lib.h"
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
-    print_file_list_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\spdcwtnaqwobxapuvlme\\file_status.dat");
+    print_file_list_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\gkoxbpujkxzecbpmajin\\file_status.dat");
+    print_file_list_file(get_commit_status_file_addres("spdcwtnaqwobxapuvlme"));
     print_config_file(get_local_config_addres());
 }
 
@@ -69,6 +68,8 @@ int main(int argc, char* argv_tmp[]){
         grep(argc, argv);
     } else if(!strcmp(act, "revert")){
         revert(argc, argv);
+    } else if(!strcmp(act, "merge")){
+        merge(argc, argv);
     }
     else {
         print_input_invalid();

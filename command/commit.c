@@ -118,17 +118,19 @@ void push_stage(char* commit_id){ // BUG
 
     char* current_commit = get_current_commit();
     for(int i = 0; i < file_status->cnt; i++){
+        if(file_status->lst[i].state == Delete) continue; 
         file_copy(
             get_current_stage_changes_file_addres(get_name_file_in_stage_change(file_status->lst[i].addres)),
             get_commit_saved_file_addres(commit_id, file_status->lst[i].addres)
         );
     }
-    FileList *all_project_file = create_file_list(0);
-    get_file_status(all_project_file, get_root_addres(), MAX_DEP);
-    for(int i = 0; i < all_project_file->cnt; i++){
-        if(find_index_in_file_list(file_status, all_project_file->lst[i].addres) == -1){
-            all_project_file->lst[i].state = NotFound;
-            file_list_push_back(file_status, &all_project_file->lst[i]);
+    if(strcmp(current_commit, "master")){
+        FileList *current_commit_state = get_commit_status_file(current_commit);
+        for(int i = 0; i < current_commit_state->cnt; i++){
+            if(find_index_in_file_list(file_status, current_commit_state->lst[i].addres) == -1){
+                current_commit_state->lst[i].state = NotFound;
+                file_list_push_back(file_status, &current_commit_state->lst[i]);
+            }
         }
     }
     set_file_list(get_commit_status_file_addres(commit_id), file_status);
@@ -146,13 +148,13 @@ Commit create_commit(char *message, int hidden, int is_merged){
     cmt.hidden = hidden;
     cmt.is_merged = is_merged;
 
-    print_error("append commit!");
+    // print_error("append commit!");
     append_commit(cmt);
-    print_error("create init file!");
+    // print_error("create init file!");
     create_commit_init_file(commit_id);
-    print_error("push stage!");
+    // print_error("push stage!");
     push_stage(commit_id);
-    print_error("update head!");
+    // print_error("update head!");
     update_head_commit_id(commit_id);
 
     return cmt;
