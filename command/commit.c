@@ -128,6 +128,7 @@ void push_stage(char* commit_id){ // BUG
         FileList *current_commit_state = get_commit_status_file(current_commit);
         for(int i = 0; i < current_commit_state->cnt; i++){
             if(find_index_in_file_list(file_status, current_commit_state->lst[i].addres) == -1){
+                if(current_commit_state->lst[i].state == Delete) continue;
                 current_commit_state->lst[i].state = NotFound;
                 file_list_push_back(file_status, &current_commit_state->lst[i]);
             }
@@ -148,13 +149,9 @@ Commit create_commit(char *message, int hidden, int is_merged){
     cmt.hidden = hidden;
     cmt.is_merged = is_merged;
 
-    // print_error("append commit!");
     append_commit(cmt);
-    // print_error("create init file!");
     create_commit_init_file(commit_id);
-    // print_error("push stage!");
     push_stage(commit_id);
-    // print_error("update head!");
     update_head_commit_id(commit_id);
 
     return cmt;
@@ -217,7 +214,6 @@ int commit(int argc, char *argv[]){
         char* msg = get_string(MAX_MESSAGE);
         if(validate_create_commit(commit_msg, msg)){
             Commit cmt = create_commit(commit_msg, 0, 0);
-            print_success(msg);
             print_commit(cmt);
         } else{
             print_fail(msg);

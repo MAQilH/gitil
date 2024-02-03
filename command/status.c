@@ -74,7 +74,6 @@ void status(int argc, char *argv[]){ // if add -p addres show from root project
         else if(flst->lst[i].state == Delete) st[1] = 'D';
         else if(flst->lst[i].state == Create) st[1] = 'A';
         else if(flst->lst[i].state == Access) st[1] = 'T';
-        // else if(flst.lst[i].state == Unchange) st[1] = 'U';
         else continue;
         n++;
         

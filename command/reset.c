@@ -58,13 +58,17 @@ void clear_from_stage(FileList *flst){
             if(flst->lst[i].state != Delete){
                 remove_file_in_stage_change(&flst->lst[i]);
             }
-            stage_file->lst[i] = blanck_file();
+            stage_file->lst[index] = blanck_file();
         }
     }
     set_file_list(get_current_stage_info_addres(), stage_file);
 }
 
 void reset(int argc, char* argv[]){
+    if(argc == 2){
+        
+        return;
+    }
     if(!strcmp(argv[2], "-undo")){
         undo_from_stage();
         return;
@@ -81,5 +85,6 @@ void reset(int argc, char* argv[]){
             add_file_rel_addres_to_file_list(flst, addres);
         }
     }
+    print_file_list(flst);
     clear_from_stage(flst);
 }

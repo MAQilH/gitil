@@ -1,6 +1,7 @@
 #include "../lib/lib.h"
 #include "add.h"
 #include "stage.h"
+#include "status.h"
 #include "../model/string_list_model.h"
 #include "../model/file_list_model.h"
 
@@ -18,24 +19,28 @@ void add_n(int dep){
     get_file_status(flst, get_current_addres(), dep);
     for(int i = 0; i < flst->cnt; i++){
         if(is_blanck(&flst->lst[i])) continue;
-        if(in_stage(flst->lst[i].addres)){
-            char *msg = strcat(get_rel_addres(flst->lst[i].addres), " in stage!");
-            print_success(msg);
-        } else{
+        if(!in_stage(flst->lst[i].addres) || changed_file_stage_area(flst->lst[i].addres)){
             char *msg = strcat(get_rel_addres(flst->lst[i].addres), " not in stage!");
             print_warn(msg);
+        } else{
+            char *msg = strcat(get_rel_addres(flst->lst[i].addres), " in stage!");
+            print_success(msg);
         }
     }
 }
 
-void add(int argc, char *argv[]){
+int add(int argc, char *argv[]){
+    if(strcmp(get_current_commit(), get_cuurent_HEAD_commit())){
+        print_fail("fail: you must be in head commit for add!");
+        return 0;
+    }
     if(argc > 2 && !strcmp(argv[2], "-redo")){
         redo();
-        return;
+        return 1;
     }
     if(argc > 2 && !strcmp(argv[2], "-n")){
         add_n(argc == 3? 1: stoi(argv[3]));
-        return;
+        return 1;
     }
     int ptr = 2;
     if(!strcmp(argv[ptr], "-f")){
@@ -60,8 +65,8 @@ void add(int argc, char *argv[]){
             }
         }
     }
-    print_file_list(flst);
     add_to_stage(flst);
+    return 1;
 }
 
 void add_all_changes(){

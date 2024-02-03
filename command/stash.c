@@ -7,6 +7,7 @@
 #include "status.h"
 #include "../lib/lib.h"
 #include "../model/commit_model.h"
+#include "../model/branch_model.h"
 
 void get_stash(int num, Commit* sts_res, int *index){
     FILE* file = fopen(get_stash_info_addres(), "rb");

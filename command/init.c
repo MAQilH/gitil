@@ -4,6 +4,7 @@
 #include "config.h"
 #include "../lib/lib.h"
 #include "branch.h"
+#include "../model/branch_model.h"
 
 void initialize(){
     create_local_config();

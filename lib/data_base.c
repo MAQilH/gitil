@@ -30,7 +30,6 @@ char* get_commit_branch(char *commit_id){
 }
 
 char *get_branch_head_commit(char* branch_name){
-    // print_branch(get_branch(branch_name));
     return get_string_ref(get_branch(branch_name).head_commit_id);
 }
 

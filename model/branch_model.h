@@ -12,3 +12,4 @@ typedef struct Branch{
 Branch get_branch(char* branch_name);
 void print_branch(Branch brn);
 void print_branch_file(char* file_addres);
+Branch create_branch(char *branch_name, int hidden);
