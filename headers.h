@@ -15,3 +15,4 @@
 #include "./command/grep.h"
 #include "./command/revert.h"
 #include "./command/merge.h"
+#include "./command/stash.h"

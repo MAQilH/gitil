@@ -50,6 +50,8 @@
         "system_error": "c",
         "diff.h": "c",
         "merge.h": "c",
-        "source_location": "c"
+        "source_location": "c",
+        "revert.h": "c",
+        "conflict.h": "c"
     }
 }

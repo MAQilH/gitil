@@ -73,6 +73,8 @@ int main(int argc, char* argv_tmp[]){
         revert(argc, argv);
     } else if(!strcmp(act, "merge")){
         merge(argc, argv);
+    } else if(!strcmp(act, "stash")){
+        stash(argc, argv);
     }
     else {
         print_input_invalid();

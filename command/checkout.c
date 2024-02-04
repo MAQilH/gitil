@@ -50,6 +50,10 @@ int checkout(int argc, char* argv[]){
         checkout_head_n(0, force);
         return 1;
     }
+    if(!strcmp("__CUR", argv[2])){
+        checkout_commit(get_current_commit(), 1);
+        return 1;
+    }
     if(strlen(argv[2]) > 5 && !strncmp("HEAD-", argv[2], 5)){
         checkout_head_n(stoi(argv[2] + 5), force);
         return 1;

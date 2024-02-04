@@ -1,0 +1,1 @@
+int stash(int argc, char *argv[]);

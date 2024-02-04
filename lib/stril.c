@@ -40,7 +40,13 @@ StringList get_string_list(char* str, char* del){
 char* itos(int a){
     if(a == 0) return "0";
     char* str = get_string(MAX_COMA);
-    int len = 0, tmp = a;
+    int len = 0;
+    if(a < 0){
+        a = -a;
+        str[0] = '-';
+        len++;
+    }
+    int tmp = a;
     while(tmp) len++, tmp /= 10;
     while(a){
         len--;

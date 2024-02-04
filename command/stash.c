@@ -9,22 +9,23 @@
 #include "../lib/lib.h"
 #include "../model/commit_model.h"
 #include "../model/branch_model.h"
+#include "conflict.h"
 
 Commit get_stash(int num, int *index){
     FILE* file = fopen(get_stash_info_addres(), "rb");
     fseek(file, 0, SEEK_END);
     int ptr = ftell(file);
     Commit sts, res;
-    int ind = 0;
+    int ind = ptr/sizeof(Commit);
     int have = 0;
     while(ptr > 0){
-        ind++;
+        ind--;
         ptr -= sizeof(sts);
         fseek(file, ptr, SEEK_SET);
         fread(&sts, sizeof(sts), 1, file);
         if(sts.date < 0) continue;
         res = sts;
-        *index = ind-1;
+        *index = ind;
         if(num == 0){
             have = 1;
             break;
@@ -56,6 +57,7 @@ void stash_push(char *msg){
     add_all_changes();
     Commit sts = create_commit(msg, 1, 0);
     strcpy(sts.creator, current_commit);
+    strcpy(sts.branch_name, current_branch);
     add_to_stash_info(&sts);
 
     checkout_branch(current_branch, 1);
@@ -72,7 +74,6 @@ void show_stash_list(){
         fseek(file, ptr, SEEK_SET);
         fread(&sts, sizeof(sts), 1, file);
         if(sts.date < 0) continue;
-        
         sts.date = cnt++; 
         print_stash(sts);
     }
@@ -94,18 +95,21 @@ int stash_drop(int num){
     return 1;
 }
 
-int stash_pop(int num){ // BUG
+int stash_pop(int num){
     if(check_diff_in_project()){
         print_fail("project have changes in files that not been committed, you can seen them with \"gitil status -p\"!");
         return 0;
     }
     int index;
     Commit sts = get_stash(num, &index);
-    // if(!conflict(sts.commit_id)){
-    //     if(revert_n(sts.commit_id)){
-    //         return stash_drop(index);
-    //     }
-    // }
+    if(index == -1){
+        print_warn("stash is clear!");
+    }
+    if(conflict(sts.commit_id)){
+        if(revert_n(sts.commit_id)){
+            return stash_drop(index);
+        }
+    }
     return 0;
 }
 
@@ -121,10 +125,11 @@ int stash_branch(char* branch_name, int num){
     }
     int index;
     Commit sts = get_stash(num, &index);
-    checkout_commit(sts.creator, 1);
+    checkout_commit(sts.creator, 0);
     create_branch(branch_name, 0);
     checkout_branch(branch_name, 1);
     revert_n(sts.commit_id);
+    stash_drop(num);
 }
 
 int stash(int argc, char *argv[]){
@@ -139,6 +144,7 @@ int stash(int argc, char *argv[]){
             msg = argv[4];
         }
         stash_push(msg);
+        print_success("stash added!");
         return 1;
     }
     if(!strcmp(act, "list")){
