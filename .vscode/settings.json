@@ -49,6 +49,7 @@
         "tag_model.h": "c",
         "system_error": "c",
         "diff.h": "c",
-        "merge.h": "c"
+        "merge.h": "c",
+        "source_location": "c"
     }
 }

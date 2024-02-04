@@ -1,0 +1,1 @@
+int conflict(char* commit_id);

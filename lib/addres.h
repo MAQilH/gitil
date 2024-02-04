@@ -36,10 +36,14 @@ char *get_commits_info_addres();
 char *get_commits_folder_addres(char* branch_name);
 char *get_commit_folder_addres(char* commit_id);
 char *get_commit_status_file_addres(char* commit_id);
-char *get_commit_saved_file_addres(char* commit_addres, char* file_name);
+char *get_commit_saved_file_addres(char* commit_addres, char* file_addres);
 
 /* Tag */
 char *get_tag_info_addres();
 
 /* Stash */
 char *get_stash_info_addres();
+
+/* Conflict */
+char *get_conflict_temp_folder_addres();
+char *get_saved_file_conflict_addres(char *file_addres);

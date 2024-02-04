@@ -1,8 +1,8 @@
 file -> nmd1.txt
 asdasdsaf
 asdf
-dasffsafsdasdfg
+dasfdasdfg
 
 asdasd fd
 asdasd
-get_commit_status_file_addres
+get_commit_stfile_addres

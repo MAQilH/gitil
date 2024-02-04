@@ -148,10 +148,10 @@ char *get_commit_status_file_addres(char* commit_id){
     return cat_string(get_commit_folder_addres(commit_id), "file_status.dat");
 }
 
-char *get_commit_saved_file_addres(char* commit_addres, char* file_name){
+char *get_commit_saved_file_addres(char* commit_addres, char* file_addres){
     return cat_string(
         get_commit_folder_addres(commit_addres),
-        replace_name_with_hash(file_name)
+        replace_name_with_hash(file_addres)
     );
 }
 
@@ -169,4 +169,17 @@ char *get_tag_info_addres(){
 
 char *get_stash_info_addres(){
     return cat_string(get_gitil_addres(), "stash_info.dat");
+}
+
+/* Conflict */
+
+char *get_conflict_temp_folder_addres(){
+    return cat_string(get_gitil_addres(), "conflict\\");
+}
+
+char *get_saved_file_conflict_addres(char *file_addres){
+    return cat_string(
+        get_conflict_temp_folder_addres(), 
+        replace_name_with_hash(file_addres)
+    );
 }

@@ -20,7 +20,7 @@ int revert_n(char* commit_id){
                 return 0;
             }
             file_copy(
-                exist_in_commit(commit_id, flst->lst[i].addres),
+                copy_addres,
                 flst->lst[i].addres
             );
         }

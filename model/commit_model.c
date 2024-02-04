@@ -10,7 +10,7 @@ void print_stash(Commit sts){
         "\e[1mID:\e[m \033[1;33m%s\033[0m\n"
         "\e[1mMessage:\e[m %s\n"
         "\e[1mBranch:\e[m %s\n"
-        "\e[1mCommit Creator:\e[m %s\n"
+        "\e[1mCommit Creator:\e[m \033[1;33m%s\033[0m\n"
         "\e[1mNumber:\e[m %s\n\n",
         sts.commit_id, sts.message, sts.branch_name, sts.creator, sts.date
     );

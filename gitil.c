@@ -7,9 +7,12 @@
 #include "model/model.h"
 
 void test_env(int argc, char *argv[]){
-    print_file_list_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\gkoxbpujkxzecbpmajin\\file_status.dat");
-    print_file_list_file(get_commit_status_file_addres("spdcwtnaqwobxapuvlme"));
-    print_config_file(get_local_config_addres());
+    int x;
+    scanf("%d", &x);
+    print_fail(itos(x));
+    // print_file_list_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\gkoxbpujkxzecbpmajin\\file_status.dat");
+    // print_file_list_file(get_commit_status_file_addres("spdcwtnaqwobxapuvlme"));
+    // print_config_file(get_local_config_addres());
 }
 
 int check_continue(int argc, char *argv[]){
