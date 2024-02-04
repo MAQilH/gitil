@@ -68,7 +68,7 @@ char* create_random_commit_id(){
     srand(get_rand());
     char *res = get_string(MAX_HASH);
     for(int i = 0; i < MAX_HASH; i++){
-        res[i] = (char)('a' + rand()%26);
+        res[i] = get_rand_char();
     }
     return res;
 }

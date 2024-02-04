@@ -76,6 +76,15 @@ char* get_date(int date){
     return get_string_ref(buffer);
 }
 
+char get_rand_char(){
+    int x = rand()%62;
+    if(x < 10) return x + '0';
+    x -= 10;
+    if(x < 26) return x + 'a';
+    x -= 26;
+    return x + 'A';
+}
+
 char* get_hash(char* s){
     int len = strlen(s);
     long long seed = 0;
@@ -85,7 +94,7 @@ char* get_hash(char* s){
     srand(seed);
     char* hash = get_string(MAX_HASH);
     for(int i = 0; i < MAX_HASH; i++){
-        hash[i] = (char)(rand()%26 + 'a');
+        hash[i] = get_rand_char();
     }
     return hash;
 }

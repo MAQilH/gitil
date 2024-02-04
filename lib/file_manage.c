@@ -160,7 +160,11 @@ char* get_real_addres(char* cr_addres){
     // char* res = get_current_addres();
     // chdir(saved);
     int len = strlen(cr_addres);
-    if(cr_addres[len-1] == '.') cr_addres[len-1] = '\0';
+    if(cr_addres[len-1] == '.') cr_addres[len-1] = '\0', len--;
+    if(len && cr_addres[len-1] != '\\'){
+        cr_addres[len] = '\\';
+        cr_addres[len+1] = '\0';
+    }
     return cr_addres;
 }
 
@@ -184,4 +188,14 @@ int get_file_len(char* file_addres, int size){
     FILE *file = fopen(file_addres, "rb");
     fseek(file, 0, SEEK_END);
     return ftell(file)/size;
+}
+
+char* get_folder_addres(char* addres){
+    char *res = get_string_ref(addres);
+    int len = strlen(addres);
+    while(len && res[len-1] != '\\') {
+        res[len-1] = '\0';
+        len--;
+    }
+    return res;
 }

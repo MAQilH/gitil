@@ -9,11 +9,11 @@
 #include "../model/commit_model.h"
 #include "../model/branch_model.h"
 
-void get_stash(int num, Commit* sts_res, int *index){
+Commit get_stash(int num, int *index){
     FILE* file = fopen(get_stash_info_addres(), "rb");
     fseek(file, 0, SEEK_END);
     int ptr = ftell(file);
-    Commit sts;
+    Commit sts, res;
     int ind = 0;
     while(ptr > 0){
         ind++;
@@ -21,12 +21,13 @@ void get_stash(int num, Commit* sts_res, int *index){
         fseek(file, ptr, SEEK_SET);
         fread(&sts, sizeof(sts), 1, file);
         if(sts.date < 0) continue;
-        *sts_res = sts;
+        res = sts;
         *index = ind-1;
         if(num == 0) break;
         num--;
     }
     fclose(file);
+    return res;
 }
 
 void add_to_stash_info(Commit *sts){
@@ -71,16 +72,14 @@ void show_stash_list(){
 }
 
 void stash_show_diff(int num){
-    Commit sts;
     int index;
-    get_stash(num, &sts, &index);
+    Commit sts = get_stash(num, &index);
     show_commit_diff(sts.commit_id, sts.creator);
 }
 
 int stash_drop(int num){
-    Commit sts;
     int index;
-    get_stash(num, &sts, &index);
+    Commit sts = get_stash(num, &index);
     sts.date = -1;
     upate_middle_file(&sts, sizeof(sts), index, get_stash_info_addres());
     return 1;
@@ -91,9 +90,8 @@ int stash_pop(int num){
         print_fail("project have changes in files that not been committed, you can seen them with \"gitil status -p\"!");
         return 0;
     }
-    Commit sts;
     int index;
-    get_stash(num, &sts, &index);
+    Commit sts = get_stash(num, &index);
     if(merge_branch(sts.branch_name, get_current_commit())){
         sts.date = -1;
         upate_middle_file(&sts, sizeof(sts), index, get_stash_info_addres());
@@ -113,8 +111,7 @@ int stash_branch(char* branch_name, int num){
         return 0;
     }
     int index;
-    Commit sts;
-    get_stash(num, &sts, &index);
+    Commit sts = get_stash(num, &sts, &index);
     checkout_commit(sts.creator, 1);
     create_branch(branch_name, 0);
     // after writing revert...

@@ -13,3 +13,4 @@ int check_exist_in_folder(char *addres, char *folder_addres);
 int addres_distance(char *addres_child, char *addres_parent);
 int get_premisson_file(char *file_addres);
 int get_file_len(char* file_addres, int size);
+char* get_folder_addres(char* addres);

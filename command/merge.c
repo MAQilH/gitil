@@ -51,7 +51,7 @@ int merge_validate(char *branch1, char *branch2){
         }
     }
     if(have){
-        print_fail("you must resolve conflicte and then merge this to branch!");
+        print_fail("you must resolve conflicte and then merge this two branch!");
         return 0;
     }
     return 1;

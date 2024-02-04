@@ -39,15 +39,17 @@ int revert_n_commit_id(char* commit_id){
 
 int revert_commit_id(char* commit_id, char* msg){
     Commit cmt = get_commit(commit_id);
-    if(msg == NULL){
-        msg = get_string(MAX_MESSAGE);
-        strcpy(msg, cmt.message);
-    }
     if(cmt.is_merged){
         print_fail("fail: this commite created by merge!");
         return 0;
     }
-    if(!revert_n(get_prev_commit_id(commit_id))) return 0;
+    commit_id = get_prev_commit_id(commit_id);
+    cmt = get_commit(commit_id);
+    if(msg == NULL){
+        msg = get_string(MAX_MESSAGE);
+        strcpy(msg, cmt.message);
+    }
+    if(!revert_n(commit_id)) return 0;
     add_all_changes();
     create_commit(msg, 0, 0);
 }

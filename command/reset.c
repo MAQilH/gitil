@@ -77,14 +77,20 @@ void reset(int argc, char* argv[]){
     if(!strcmp(argv[ptr], "-f")) ptr++;
     FileList *flst = create_file_list(0);
     for(; ptr < argc; ptr++){
+        int flg_file = 0;
+        if(*argv[ptr] == '^'){
+            argv[ptr]++;
+            flg_file = 1;
+            argv[ptr][strlen(argv[ptr])-1] = '\0';
+        }
         char* addres = get_current_addres();
         addres = cat_string(addres, argv[ptr]);
-        if(is_directory(addres)){
+        if(!flg_file && is_directory(addres)){
             get_file_status(flst, addres, MAX_DEP);
         } else{
             add_file_rel_addres_to_file_list(flst, addres);
         }
     }
-    print_file_list(flst);
+    printf("%d files reset!\n", flst->cnt);
     clear_from_stage(flst);
 }

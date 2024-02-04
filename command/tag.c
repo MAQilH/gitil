@@ -10,6 +10,7 @@ int get_tag(void* tg_void, char* tag_name){
             fclose(tag_info);
             return index;
         }
+        index++;
     }
     fclose(tag_info);
     return -1;

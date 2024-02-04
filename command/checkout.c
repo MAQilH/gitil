@@ -40,25 +40,26 @@ char* get_HEAD_x_commit_id(int n){
     return commit_id;
 }
 
-void checkout_head_n(int n){
-    checkout_commit(get_HEAD_x_commit_id(n), 0);
+void checkout_head_n(int n, int force){
+    checkout_commit(get_HEAD_x_commit_id(n), force);
 }
 
 int checkout(int argc, char* argv[]){
+    int force = !strcmp(argv[argc-1], "-f");
     if(!strcmp("HEAD", argv[2])){
-        checkout_head_n(0);
+        checkout_head_n(0, force);
         return 1;
     }
     if(strlen(argv[2]) > 5 && !strncmp("HEAD-", argv[2], 5)){
-        checkout_head_n(stoi(argv[2] + 5));
+        checkout_head_n(stoi(argv[2] + 5), force);
         return 1;
     }
     if(check_exist_branch(argv[2])){
-        checkout_branch(argv[2], 0);
+        checkout_branch(argv[2], force);
         return 1;
     } 
     if(check_exist_commit(argv[2])){
-        checkout_commit(argv[2], 0);
+        checkout_commit(argv[2], force);
         return 1;
     }
     print_fail("not exist such commit/branch!");

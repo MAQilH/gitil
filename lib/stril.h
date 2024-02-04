@@ -11,3 +11,4 @@ int is_file(char *path);
 int stoi(char* s);
 char* get_hash(char* s);
 int wildcard_checker(char* wild, char* word);
+char get_rand_char();

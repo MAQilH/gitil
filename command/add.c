@@ -6,12 +6,17 @@
 #include "../model/file_list_model.h"
 
 int add_file_rel_addres_to_file_list(FileList *flst, char* addres){
-    File fl = {.state = get_file_state_with_commit(get_current_commit(), addres)};
-    if(fl.state == NotFound) return 0;
-    strcpy(fl.addres, addres);
-    strcpy(fl.name, get_file_name(fl.addres));
-    file_list_push_back(flst, &fl);
-    return 1;
+    char *folder_addres = get_folder_addres(addres);
+    FileList* tmp = create_file_list(0); 
+    get_file_status(tmp, folder_addres, 1);
+    int have = 0;
+    for(int i = 0; i < tmp->cnt; i++){
+        if(wildcard_checker(addres, tmp->lst[i].addres)){
+            have = 1;
+            file_list_push_back(flst, &tmp->lst[i]);
+        }
+    }
+    return have;
 }
 
 void add_n(int dep){
@@ -48,16 +53,18 @@ int add(int argc, char *argv[]){
     }
     FileList *flst = create_file_list(0);
     for(; ptr < argc; ptr++){
-        char* msg = cat_string(argv[ptr], " has been successfully added to the stage!");
+        int flg_file = 0;
+        if(*argv[ptr] == '^'){
+            argv[ptr]++;
+            flg_file = 1;
+            argv[ptr][strlen(argv[ptr])-1] = '\0';
+        }
         char* addres = get_current_addres();
         addres = cat_string(addres, argv[ptr]);
-        if(is_directory(addres)){
+        if(!flg_file && is_directory(addres)){
             get_file_status(flst, addres, MAX_DEP);
-            print_success(msg);
-        } else if(is_file(addres)){            
-            if(add_file_rel_addres_to_file_list(flst, addres)){
-                print_success(msg);
-            } else{
+        } else if(flg_file || is_file(addres)){            
+            if(!add_file_rel_addres_to_file_list(flst, addres)){
                 char *msg = "warn: no file/folder ";
                 msg = cat_string(msg, argv[ptr]);
                 msg = cat_string(msg, " exist!");
@@ -65,6 +72,7 @@ int add(int argc, char *argv[]){
             }
         }
     }
+    printf("%d files added.\n", flst->cnt);
     add_to_stage(flst);
     return 1;
 }
