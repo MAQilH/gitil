@@ -33,6 +33,7 @@ char* get_HEAD_x_commit_id(int n){
     char* commit_id = get_cuurent_HEAD_commit();
     Branch current_branch = get_branch(get_HEAD());
     while(n--){
+        if(commit_id == NULL || !strcmp(commit_id, current_branch.parent_commit_id)) break;
         char* prev_commit = get_prev_commit_id(commit_id);
         if(prev_commit == NULL || !strcmp(prev_commit, current_branch.parent_commit_id)) break;
         commit_id = prev_commit;

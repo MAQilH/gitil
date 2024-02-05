@@ -1,6 +1,7 @@
 #include "../lib/lib.h"
 #include "../model/file_list_model.h"
 #include "diff.h"
+#include "commit.h"
 
 int resolve_conflict(char* file_addres1, char* file_addres2, char* saved_addres, char* real_addres){
     FILE *saved_file = fopen(saved_addres, "w");
@@ -31,13 +32,13 @@ int conflict(char* commit_id){
         if(find_index_in_file_list(current_files, conf_files->lst[i].addres) == -1 ||
             find_in_file_list(current_files, conf_files->lst[i].addres) == Delete) continue;
         if(!file_have_diff(
-            get_commit_saved_file_addres(current_commit, current_files->lst[i].addres),
-            get_commit_saved_file_addres(commit_id, current_files->lst[i].addres)
+            exist_in_commit(current_commit, current_files->lst[i].addres),
+            exist_in_commit(commit_id, current_files->lst[i].addres)
         )) continue;
 
         if(!resolve_conflict(
-            get_commit_saved_file_addres(current_commit, conf_files->lst[i].addres),
-            get_commit_saved_file_addres(commit_id, conf_files->lst[i].addres),
+            exist_in_commit(current_commit, current_files->lst[i].addres),
+            exist_in_commit(commit_id, current_files->lst[i].addres),
             get_saved_file_conflict_addres(conf_files->lst[i].addres),
             conf_files->lst[i].addres
         )){

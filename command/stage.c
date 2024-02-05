@@ -32,7 +32,7 @@ void redo(){
                 break;
             }
         }
-        if(!added) added = in_stage(mem_stage->lst[i].addres);
+        // if(!added) added = in_stage(mem_stage->lst[i].addres);
         
         if(!added){
             file_list_push_back(add_file_list, &mem_stage->lst[i]);

@@ -4,6 +4,7 @@ char *get_current_addres();
 char* get_gitil_addres();
 char *get_rel_addres_from(char* addres, char *from);
 char* get_rel_addres(char* addres);
+char *get_error_addres();
 
 /* Config Addres*/
 char *get_local_config_addres();

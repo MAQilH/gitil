@@ -6,6 +6,7 @@
 #include "commit_shortcut.h"
 #include "diff.h"
 #include "stage.h"
+#include "pre_commit.h"
 
 int check_exist_commit(char* commit_id){
     FILE *commits_info_file = fopen(get_commits_info_addres(), "rb");
@@ -139,8 +140,8 @@ void push_stage(char* commit_id){ // BUG
 }
 
 Commit create_commit(char *message, int hidden, int is_merged){
-    char *commit_id = create_random_commit_id();
     Commit cmt;
+    char *commit_id = create_random_commit_id();
     strcpy(cmt.message, message);
     strcpy(cmt.creator, get_creator());
     strcpy(cmt.branch_name, get_HEAD());
@@ -157,7 +158,15 @@ Commit create_commit(char *message, int hidden, int is_merged){
     return cmt;
 }
 
-int validate_create_commit(char* message, char* res){
+int validate_create_commit(char* message, char* res, int force){
+    if(force){
+        strcpy(res, "commit created!");
+        return 1; 
+    }
+    if(!pre_commit_hook(0)){
+        print_fail("fail: you must pass all hooks, you can see hook state with command \"gitil pre-commit\"!\nor you can add -f option to force commit!");
+        return 0;
+    }
     FileList *stage_list = get_file_list(get_current_stage_info_addres());
     stage_list = get_clean_file_list(stage_list);
     if(stage_list->cnt == 0){
@@ -211,8 +220,9 @@ int commit(int argc, char *argv[]){
         }
     }
     if(!strcmp(argv[2], "-m") || !strcmp(argv[2], "-s")){
+        int force = !strcmp(argv[argc-1], "-f");
         char* msg = get_string(MAX_MESSAGE);
-        if(validate_create_commit(commit_msg, msg)){
+        if(validate_create_commit(commit_msg, msg, force)){
             Commit cmt = create_commit(commit_msg, 0, 0);
             print_commit(cmt);
         } else{

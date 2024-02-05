@@ -52,6 +52,9 @@
         "merge.h": "c",
         "source_location": "c",
         "revert.h": "c",
-        "conflict.h": "c"
+        "conflict.h": "c",
+        "config_model.h": "c",
+        "hooks.h": "c",
+        "pre_commit.h": "c"
     }
 }

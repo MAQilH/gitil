@@ -4,3 +4,4 @@ int print_diff_file(char* file_addres1, int bg1, int en1, char* file_addres2, in
 void show_commit_diff(char* commit1, char* commit2);
 int diff(int argc, char* argv[]);
 int file_have_diff(char* file_addres1, char* file_addres2);
+int check_nullspace_string(char* s);

@@ -6,6 +6,7 @@ typedef struct Config{
     char current_commit[MAX_HASH];
     int date;
     int seed;
+    int hook;
 } Config;
 
 Config get_config(char* addres);

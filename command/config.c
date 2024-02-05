@@ -64,6 +64,9 @@ int create_config(char* addres){
     strcpy(conf.current_commit, "master");
     conf.name[0] = conf.email[0] = 0;
     conf.date = time(NULL);
+    srand(time(NULL));
+    conf.seed = abs(rand());
+    conf.hook = 0;
     fwrite(&conf, sizeof(conf), 1, file);
     fclose(file);
 

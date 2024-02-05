@@ -59,6 +59,7 @@ char* itos(int a){
 int stoi(char* s){
     int res = 0, len = strlen(s);
     for(int i = 0; i < len; i++){
+        if(s[i] < '0' || s[i] > '9') break;
         res = res*10 + (s[i] - '0');
     }
     return res;

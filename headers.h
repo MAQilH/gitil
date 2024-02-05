@@ -16,3 +16,4 @@
 #include "./command/revert.h"
 #include "./command/merge.h"
 #include "./command/stash.h"
+#include "./command/pre_commit.h"

@@ -10,9 +10,6 @@ void test_env(int argc, char *argv[]){
     int x;
     scanf("%d", &x);
     print_fail(itos(x));
-    // print_file_list_file("C:\\Users\\moham\\C++\\gitil\\virtual_project\\.gitil\\branch\\master\\commits\\gkoxbpujkxzecbpmajin\\file_status.dat");
-    // print_file_list_file(get_commit_status_file_addres("spdcwtnaqwobxapuvlme"));
-    // print_config_file(get_local_config_addres());
 }
 
 int check_continue(int argc, char *argv[]){
@@ -39,7 +36,7 @@ int main(int argc, char* argv_tmp[]){
         print_fail("fail: gitil not created!");
         return 0;
     }
-
+    
     char* act = argv[1];
     if(!strcmp(act, "init")){
         init(argc, argv);
@@ -75,6 +72,8 @@ int main(int argc, char* argv_tmp[]){
         merge(argc, argv);
     } else if(!strcmp(act, "stash")){
         stash(argc, argv);
+    } else if(!strcmp(act, "pre-commit")){
+        pre_commit(argc, argv);
     }
     else {
         print_input_invalid();

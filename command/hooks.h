@@ -1,0 +1,14 @@
+typedef enum HookState {PASSED, FAILED, SKIPPED} HookState;
+int check_type_support(int hook_num, char* file_addres);
+HookState todo_check_hook(char* file_addres);
+HookState eof_blank_space_hook(char* file_addres);
+HookState format_check_hook(char* file_addres);
+HookState balance_braces_hook(char* file_addres);
+HookState indentation_check_hook(char* file_addres);
+HookState static_error_check_hook(char* file_addres);
+HookState file_size_check_hook(char* file_addres);
+HookState character_limit_hook(char* file_addres);
+HookState time_limit_hook(char* file_addres);
+int resolve_eof_blank_space(char* file_addres);
+int resolve_balance_braces(char* file_addres);
+int resove_indentation_check(char* file_addres);

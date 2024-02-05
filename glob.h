@@ -10,3 +10,4 @@
 #define PRIME           (9973)
 #define INF             (1<<30)
 #define MOD             (1000000007)
+#define HOOK_NUMBER     (9)

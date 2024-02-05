@@ -38,6 +38,10 @@ char *get_rel_addres(char* addres){
     return get_rel_addres_from(addres, get_current_addres());
 }
 
+char *get_error_addres(){
+    return cat_string(get_gitil_addres(), "error.txt");
+}
+
 /* Config Addres */
 
 char* get_local_config_addres(){
@@ -183,3 +187,4 @@ char *get_saved_file_conflict_addres(char *file_addres){
         replace_name_with_hash(file_addres)
     );
 }
+

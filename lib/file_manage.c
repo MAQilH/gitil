@@ -126,9 +126,9 @@ int file_copy(char* from, char* to){
     int c;
     FILE *stream_R;
     FILE *stream_W; 
-    stream_R = fopen (from, "r");
+    stream_R = fopen(from, "rb");
     if(stream_R == NULL) return -1;
-    stream_W = fopen (to, "w");
+    stream_W = fopen(to, "wb");
     if(stream_W == NULL){
         fclose(stream_R);
         return -2;
