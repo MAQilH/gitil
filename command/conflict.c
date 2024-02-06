@@ -32,13 +32,13 @@ int conflict(char* commit_id){
         if(find_index_in_file_list(current_files, conf_files->lst[i].addres) == -1 ||
             find_in_file_list(current_files, conf_files->lst[i].addres) == Delete) continue;
         if(!file_have_diff(
-            exist_in_commit(current_commit, current_files->lst[i].addres),
-            exist_in_commit(commit_id, current_files->lst[i].addres)
+            exist_in_commit(current_commit, conf_files->lst[i].addres),
+            exist_in_commit(commit_id, conf_files->lst[i].addres)
         )) continue;
 
         if(!resolve_conflict(
-            exist_in_commit(current_commit, current_files->lst[i].addres),
-            exist_in_commit(commit_id, current_files->lst[i].addres),
+            exist_in_commit(current_commit, conf_files->lst[i].addres),
+            exist_in_commit(commit_id, conf_files->lst[i].addres),
             get_saved_file_conflict_addres(conf_files->lst[i].addres),
             conf_files->lst[i].addres
         )){

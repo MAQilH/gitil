@@ -35,9 +35,7 @@ int merge_validate(char *branch1, char *branch2){
     return 1;
 }
 
-void add_sub_branch_file(char* branch1, char* branch2){
-    char* commit_main = get_branch_head_commit(branch1);
-    char* commit_sub = get_branch_head_commit(branch2);
+void add_sub_branch_file(char* commit_main, char* commit_sub){
     FileList* main_files = get_commit_status_file(commit_main);
     FileList* sub_files = get_commit_status_file(commit_sub);
     for(int i = 0; i < sub_files->cnt; i++){
@@ -57,7 +55,7 @@ int merge_branch(char* branch1, char* branch2){
             print_fail("you must resolve conflicte and then merge this two branch!");
             return 0;
         }
-        add_sub_branch_file(branch1, branch2);
+        add_sub_branch_file(get_branch_head_commit(branch1), get_branch_head_commit(branch2));
         add_all_changes();
         char msg[MAX_ADDRES];
         sprintf(msg, "Merged Branch %s with %s!", branch1, branch2);

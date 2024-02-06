@@ -80,7 +80,7 @@ void create_global_config(){
     create_config("C:\\");
 }
 
-void create_local_config(){ // TODO: set init random seed
+void create_local_config(){
     create_config(get_current_addres());
     FILE *file = fopen(get_shortcut_commit_addres(), "wb");
     fclose(file);

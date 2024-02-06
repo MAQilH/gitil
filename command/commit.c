@@ -113,7 +113,7 @@ void clear_stage(){
     fclose(unstage_file);
 }
 
-void push_stage(char* commit_id){ // BUG
+void push_stage(char* commit_id){
     FileList *stage_file = get_file_list(get_current_stage_info_addres());
     FileList *file_status = get_clean_file_list(stage_file);
 

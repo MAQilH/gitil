@@ -303,7 +303,7 @@ void show_file_diff(int argc, char* argv[]){
 }
 
 
-void show_commit_diff(char* commit1, char* commit2){ // BUG
+void show_commit_diff(char* commit1, char* commit2){
     FileList *commit_status1 = get_commit_status_file(commit1);
     FileList *commit_status2 = get_commit_status_file(commit2);
     for(int i = 0; i < commit_status1->cnt; i++){

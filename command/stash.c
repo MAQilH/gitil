@@ -106,9 +106,8 @@ int stash_pop(int num){
         print_warn("stash is clear!");
     }
     if(conflict(sts.commit_id)){
-        if(revert_n(sts.commit_id)){
-            return stash_drop(index);
-        }
+        add_sub_branch_file(get_current_commit(), sts.commit_id);
+        return stash_drop(index);
     }
     return 0;
 }
